@@ -32,43 +32,20 @@ View は、HoloLens の利用者が見ている世界を、第三者が 2D
 
 ## 本書の内容
 
--   [*1
-    ユースケース*](https://developer.microsoft.com/ja-jp/windows/holographic/spectator_view#use_cases)
+-   [1 ユースケース](spectatorview.md#ユースケース)
+-   [2 ビデオキャプチャ技法の比較](spectatorview.md#ビデオキャプチャ技法の比較)
+-   [3 ハードウェア購入リスト](spectatorview.md#ハードウェア購入リスト)
+-   [4 ソフトウェア コンポーネント](spectatorview.md#ソフトウェア-コンポーネント)
+-   [5 独自の Spectator Viewカメラの作成](spectatorview.md#独自の-spectator-view-カメラの作成)
+    -   [5.1 装置の組み立て](spectatorview.md#装置の組み立て)
+    -   [5.2 PCのセットアップ](spectatorview.md#PC-のセットアップ)
+    -   [5.3 カメラのセットアップ](spectatorview.md#カメラのセットアップ)
+-   [6 キャリブレーション](spectatorview.md#キャリブレーション)
+-   [7 コンポジター](spectatorview.md#コンポジター)
+-   [8 Unityアプリ](spectatorview.md#unity-アプリ)
+-   [9 関連項目](spectatorview.md#関連項目)
 
--   [*2 ビデオ
-    キャプチャ技法の比較*](https://developer.microsoft.com/ja-jp/windows/holographic/spectator_view#comparing_video_capture_techniques)
-
--   [*3
-    ハードウェア購入リスト*](https://developer.microsoft.com/ja-jp/windows/holographic/spectator_view#hardware_shopping_list)
-
--   [*4 ソフトウェア
-    コンポーネント*](https://developer.microsoft.com/ja-jp/windows/holographic/spectator_view#software_components)
-
--   [*5 独自の Spectator View
-    カメラの作成*](https://developer.microsoft.com/ja-jp/windows/holographic/spectator_view#building_your_own_spectator_view_camera)
-
-    -   [*5.1
-        装置の組み立て*](https://developer.microsoft.com/ja-jp/windows/holographic/spectator_view#rig_assembly)
-
-    -   [*5.2 PC
-        のセットアップ*](https://developer.microsoft.com/ja-jp/windows/holographic/spectator_view#pc_setup)
-
-    -   [*5.3
-        カメラのセットアップ*](https://developer.microsoft.com/ja-jp/windows/holographic/spectator_view#camera_setup)
-
--   [*6
-    キャリブレーション*](https://developer.microsoft.com/ja-jp/windows/holographic/spectator_view#calibration)
-
--   [*7
-    コンポジター*](https://developer.microsoft.com/ja-jp/windows/holographic/spectator_view#compositor)
-
--   [*8 Unity
-    アプリ*](https://developer.microsoft.com/ja-jp/windows/holographic/spectator_view#unity_app)
-
--   [*9
-    関連項目*](https://developer.microsoft.com/ja-jp/windows/holographic/spectator_view#see_also)
-
-## ユース ケース
+## ユースケース
 
 ![](media/image3.jpeg){width="3.6458333333333335in"
 height="2.0416666666666665in"}
@@ -100,7 +77,7 @@ Spectator View でのビデオのキャプチャ シナリオの例
     では、アプリの紹介方法に最も適した、カメラ、レンズ、フレームを選ぶことができます。また、使用可能なビデオ
     ハードウェアに応じて、ビデオの画質を管理できます。
 
-## ビデオ キャプチャ技法の比較
+## ビデオキャプチャ技法の比較
 
 [*複合現実キャプチャ*](https://developer.microsoft.com/ja-jp/windows/holographic/mixed_reality_capture)
 (MRC) は、HoloLens 装着者が一人称視点で目にしているものをコンポジット
