@@ -7,7 +7,7 @@ Holographic API によって提供される空間認識の基礎を成します�
 
 ## 目次
 
--   [1 Windows の空間座標系](Coordinate-systems-in-DirectX.md#Windows-の空間座標系)
+-   [1 Windows の空間座標系](Coordinate systems in DirectX.md#Windows-の空間座標系)
 
 -   [2 仮想世界での静止座標系を使用したホログラムの配置](https://developer.microsoft.com/ja-jp/windows/holographic/coordinate_systems_in_directx#place_holograms_in_the_world_using_a_stationary_frame_of_reference)
 
