@@ -1,14 +1,14 @@
 # ホログラム 101
 
-このチュートリアルでは、Unity を使ってビルドするプロジェクト全体について順を追って説明します。このプロジェクトでは、[*視線*](https://developer.microsoft.com/ja-jp/windows/holographic/gaze)、[*ジェスチャー*](https://developer.microsoft.com/ja-jp/windows/holographic/gestures)、[*音声入力*](https://developer.microsoft.com/ja-jp/windows/holographic/voice_input)、[*空間音響*](https://developer.microsoft.com/ja-jp/windows/holographic/spatial_sound)、[*空間マッピング*](https://developer.microsoft.com/ja-jp/windows/holographic/spatial_mapping)など、Windows Holographic Platform と HoloLens の核となる機能を示します。
+このチュートリアルでは、Unity を使ってビルドするプロジェクト全体について順を追って説明します。このプロジェクトでは、[*視線*](https://developer.microsoft.com/ja-jp/windows/mixed-reality/gaze)、[*ジェスチャー*](https://developer.microsoft.com/ja-jp/windows/mixed-reality/gestures)、[*音声入力*](https://developer.microsoft.com/ja-jp/windows/mixed-reality/voice_input)、[*空間音響*](https://developer.microsoft.com/ja-jp/windows/mixed-reality/spatial_sound)、[*空間マッピング*](https://developer.microsoft.com/ja-jp/windows/mixed-reality/spatial_mapping)など、Windows Holographic Platform と HoloLens の核となる機能を示します。
 
 このチュートリアルの所要時間は約 1 時間です。
 
 ## 前提条件
 
--   [*適切なツールをインストール*](https://developer.microsoft.com/ja-jp/windows/holographic/install_the_tools)して構成した
+-   [*適切なツールをインストール*](https://developer.microsoft.com/ja-jp/windows/mixed-reality/install_the_tools)して構成した
     Windows 10 PC。
--   [*開発用に構成した*](https://developer.microsoft.com/ja-jp/windows/holographic/Using_Visual_Studio.html#enabling_developer_mode)
+-   [*開発用に構成した*](https://developer.microsoft.com/ja-jp/windows/mixed-reality/Using_Visual_Studio.html#enabling_developer_mode)
     HoloLens デバイス。
 
 ## プロジェクト ファイル
@@ -92,14 +92,14 @@
     -   \[アドレス\] をお使いの HoloLens の名前または IPアドレスに設定します。デバイスの IPアドレスがわからない場合は、\[設定\]、\[ネットワークとインターネット\]、\[詳細オプション\]の順にクリックして IP アドレスを確認するか、Cortana に「私の IPアドレスを教えて」と質問します。
     -   \[認証モード\] は \[ユニバーサル\] のままにします。
     -   \[選択\] をクリックします。
--   \[デバッグ\]、\[デバッグなしで開始\] の順に選ぶか、**Ctrl**キーを押しながら **F5**キーを押します。デバイスに初めて配置する場合は、[*Visual Studioとのペアリング*](https://developer.microsoft.com/ja-jp/windows/holographic/Using_Visual_Studio.html#pairing_your_device)が必要です。
+-   \[デバッグ\]、\[デバッグなしで開始\] の順に選ぶか、**Ctrl**キーを押しながら **F5**キーを押します。デバイスに初めて配置する場合は、[*Visual Studioとのペアリング*](https://developer.microsoft.com/ja-jp/windows/mixed-reality/Using_Visual_Studio.html#pairing_your_device)が必要です。
 -   ここで、Origami プロジェクトをビルドし、HoloLensに配置して実行します。
 -   HoloLens を着用して、あたりを見回し、新しいホログラムを確認します。
 
 ## 第 2 章 – 視線
 
 この章では、ホログラムを操作する 3 つの方法のうちの最初の １
-つ、[*視線*](https://developer.microsoft.com/ja-jp/windows/holographic/gaze)について説明します。
+つ、[*視線*](https://developer.microsoft.com/ja-jp/windows/mixed-reality/gaze)について説明します。
 
 ### 目標
 
@@ -131,14 +131,14 @@ public class WorldCursor : MonoBehaviour
     // Use this for initialization
     void Start()
     {
-        // Grab the mesh renderer that&#39;s on the same object as this script.
-        meshRenderer = this.gameObject.GetComponentInChildren&lt;MeshRenderer&gt;();
+        // Grab the mesh renderer that's on the same object as this script.
+        meshRenderer = this.gameObject.GetComponentInChildren<MeshRenderer>();
     }
 
     // Update is called once per frame
     void Update()
     {
-        // Do a raycast into the world based on the user&#39;s
+        // Do a raycast into the world based on the user's
         // head position and orientation.
         var headPosition = Camera.main.transform.position;
         var gazeDirection = Camera.main.transform.forward;
@@ -174,7 +174,7 @@ public class WorldCursor : MonoBehaviour
 
 ## 第 3 章 – ジェスチャー
 
-この章では、[*ジェスチャー*](https://developer.microsoft.com/ja-jp/windows/holographic/gestures)のサポートを追加します。ここでは紙で作った球体をユーザーが選ぶと、その球体が落ちるようにします。そのため、Unityの物理エンジンを使って重力を有効にします。
+この章では、[*ジェスチャー*](https://developer.microsoft.com/ja-jp/windows/mixed-reality/gestures)のサポートを追加します。ここでは紙で作った球体をユーザーが選ぶと、その球体が落ちるようにします。そのため、Unityの物理エンジンを使って重力を有効にします。
 
 ### 目標
 
@@ -188,7 +188,7 @@ public class WorldCursor : MonoBehaviour
 -   GazeGestureManager スクリプトを \[Hierarchy\] パネルのOrigamiCollection オブジェクトにドラッグします。
 -   Visual Studio で GazeGestureManagerスクリプトを開き、次のコードを追加します。
 
-GazeGestureManager.cs 
+GazeGestureManager.cs
 ```cs
 using UnityEngine;
 using UnityEngine.VR.WSA.Input;
@@ -209,12 +209,12 @@ public class GazeGestureManager : MonoBehaviour
 
         // Set up a GestureRecognizer to detect Select gestures.
         recognizer = new GestureRecognizer();
-        recognizer.TappedEvent += (source, tapCount, ray) =&gt;
+        recognizer.TappedEvent += (source, tapCount, ray) =>
         {
             // Send an OnSelect message to the focused object and its ancestors.
             if (FocusedObject != null)
             {
-                FocusedObject.SendMessageUpwards(&quot;OnSelect&quot;);
+                FocusedObject.SendMessageUpwards("OnSelect");
             }
         };
         recognizer.StartCapturingGestures();
@@ -226,7 +226,7 @@ public class GazeGestureManager : MonoBehaviour
         // Figure out which hologram is focused this frame.
         GameObject oldFocusObject = FocusedObject;
 
-        // Do a raycast into the world based on the user&#39;s
+        // Do a raycast into the world based on the user's
         // head position and orientation.
         var headPosition = Camera.main.transform.position;
         var gazeDirection = Camera.main.transform.forward;
@@ -260,7 +260,7 @@ public class GazeGestureManager : MonoBehaviour
 -   SphereCommands スクリプトを \[Hierarchy\] パネルの Sphere2オブジェクトにドラッグします。
 -   編集のために Visual Studioでスクリプトを開き、スクリプト既定のコードを次のコードに置き換えます。
 
-SphereCommands.cs 
+SphereCommands.cs
 ```cs
 using UnityEngine;
 
@@ -270,9 +270,9 @@ public class SphereCommands : MonoBehaviour
     void OnSelect()
     {
         // If the sphere has no Rigidbody component, add one to enable physics.
-        if (!this.GetComponent&lt;Rigidbody&gt;())
+        if (!this.GetComponent<Rigidbody>())
         {
-            var rigidbody = this.gameObject.AddComponent&lt;Rigidbody&gt;();
+            var rigidbody = this.gameObject.AddComponent<Rigidbody>();
             rigidbody.collisionDetectionMode = CollisionDetectionMode.Continuous;
         }
     }
@@ -285,7 +285,7 @@ public class SphereCommands : MonoBehaviour
 
 ### 第 4 章 – 音声
 
-この章では、2つの[*音声コマンド*](https://developer.microsoft.com/ja-jp/windows/holographic/voice_input)のサポートを追加します。「Reset world」 で落ちた球体を元の場所に戻し、「Drop sphere」 で球体を落下させます。
+この章では、2つの[*音声コマンド*](https://developer.microsoft.com/ja-jp/windows/mixed-reality/voice_input)のサポートを追加します。「Reset world」 で落ちた球体を元の場所に戻し、「Drop sphere」 で球体を落下させます。
 
 ### 目標
 
@@ -299,7 +299,7 @@ public class SphereCommands : MonoBehaviour
 -   Visual Studio で SpeechManager スクリプトを開きます。
 -   次のコードをコピーして SpeechManager.cs に貼り付け、\[すべて保存\]をクリックします。
 
-SpeechManager.cs 
+SpeechManager.cs
 ```cs
 using System.Collections.Generic;
 using System.Linq;
@@ -309,24 +309,24 @@ using UnityEngine.Windows.Speech;
 public class SpeechManager : MonoBehaviour
 {
     KeywordRecognizer keywordRecognizer = null;
-    Dictionary&lt;string, System.Action&gt; keywords = new Dictionary&lt;string, System.Action&gt;();
+    Dictionary<string, System.Action> keywords = new Dictionary<string, System.Action>();
 
     // Use this for initialization
     void Start()
     {
-        keywords.Add(&quot;Reset world&quot;, () =&gt;
+        keywords.Add("Reset world", () =>
         {
             // Call the OnReset method on every descendant object.
-            this.BroadcastMessage(&quot;OnReset&quot;);
+            this.BroadcastMessage("OnReset");
         });
 
-        keywords.Add(&quot;Drop Sphere&quot;, () =&gt;
+        keywords.Add("Drop Sphere", () =>
         {
             var focusObject = GazeGestureManager.Instance.FocusedObject;
             if (focusObject != null)
             {
                 // Call the OnDrop method on just the focused object.
-                focusObject.SendMessage(&quot;OnDrop&quot;);
+                focusObject.SendMessage("OnDrop");
             }
         });
 
@@ -371,18 +371,18 @@ public class SphereCommands : MonoBehaviour
     void OnSelect()
     {
         // If the sphere has no Rigidbody component, add one to enable physics.
-        if (!this.GetComponent&lt;Rigidbody&gt;())
+        if (!this.GetComponent<Rigidbody>())
         {
-            var rigidbody = this.gameObject.AddComponent&lt;Rigidbody&gt;();
+            var rigidbody = this.gameObject.AddComponent<Rigidbody>();
             rigidbody.collisionDetectionMode = CollisionDetectionMode.Continuous;
         }
     }
 
-    // Called by SpeechManager when the user says the &quot;Reset world&quot; command
+    // Called by SpeechManager when the user says the "Reset world" command
     void OnReset()
     {
         // If the sphere has a Rigidbody component, remove it to disable physics.
-        var rigidbody = this.GetComponent&lt;Rigidbody&gt;();
+        var rigidbody = this.GetComponent<Rigidbody>();
         if (rigidbody != null)
         {
             DestroyImmediate(rigidbody);
@@ -392,7 +392,7 @@ public class SphereCommands : MonoBehaviour
         this.transform.localPosition = originalPosition;
     }
 
-    // Called by SpeechManager when the user says the &quot;Drop sphere&quot; command
+    // Called by SpeechManager when the user says the "Drop sphere" command
     void OnDrop()
     {
         // Just do the same logic as a Select gesture.
@@ -407,7 +407,7 @@ public class SphereCommands : MonoBehaviour
 
 ## 第 5 章 – 空間音響
 
-この章では、アプリに音楽を追加してから、特定の動作で音響効果が引き起こされるようにします。ここでは[*空間音響*](https://developer.microsoft.com/ja-jp/windows/holographic/spatial_sound)を使用して、3D空間の特定の場所に効果音を設定します。
+この章では、アプリに音楽を追加してから、特定の動作で音響効果が引き起こされるようにします。ここでは[*空間音響*](https://developer.microsoft.com/ja-jp/windows/mixed-reality/spatial_sound)を使用して、3D空間の特定の場所に効果音を設定します。
 
 ### 目標
 
@@ -430,7 +430,7 @@ public class SphereCommands : MonoBehaviour
 -   SphereSounds をドラッグして、\[Hierarchy\] パネルの Sphere1 オブジェクトとSphere2 オブジェクトにドロップします。
 -   Visual Studio で SphereSounds を開き、次のようにコードを更新して \[すべて保存\] をクリックします。
 
-SphereSounds.cs 
+SphereSounds.cs
 ```cs
 using UnityEngine;
 
@@ -445,7 +445,7 @@ public class SphereSounds : MonoBehaviour
     void Start()
     {
         // Add an AudioSource component and set up some defaults
-        audioSource = gameObject.AddComponent&lt;AudioSource&gt;();
+        audioSource = gameObject.AddComponent<AudioSource>();
         audioSource.playOnAwake = false;
         audioSource.spatialize = true;
         audioSource.spatialBlend = 1.0f;
@@ -454,15 +454,15 @@ public class SphereSounds : MonoBehaviour
         audioSource.maxDistance = 20f;
 
         // Load the Sphere sounds from the Resources folder
-        impactClip = Resources.Load&lt;AudioClip&gt;(&quot;Impact&quot;);
-        rollingClip = Resources.Load&lt;AudioClip&gt;(&quot;Rolling&quot;);
+        impactClip = Resources.Load<AudioClip>("Impact");
+        rollingClip = Resources.Load<AudioClip>("Rolling");
     }
 
     // Occurs when this object starts colliding with another object
     void OnCollisionEnter(Collision collision)
     {
         // Play an impact sound if the sphere impacts strongly enough.
-        if (collision.relativeVelocity.magnitude &gt;= 0.1f)
+        if (collision.relativeVelocity.magnitude >= 0.1f)
         {
             audioSource.clip = impactClip;
             audioSource.Play();
@@ -472,17 +472,17 @@ public class SphereSounds : MonoBehaviour
     // Occurs each frame that this object continues to collide with another object
     void OnCollisionStay(Collision collision)
     {
-        Rigidbody rigid = this.gameObject.GetComponent&lt;Rigidbody&gt;();
+        Rigidbody rigid = this.gameObject.GetComponent<Rigidbody>();
 
         // Play a rolling sound if the sphere is rolling fast enough.
-        if (!rolling &amp;&amp; rigid.velocity.magnitude &gt;= 0.01f)
+        if (!rolling && rigid.velocity.magnitude >= 0.01f)
         {
             rolling = true;
             audioSource.clip = rollingClip;
             audioSource.Play();
         }
         // Stop the rolling sound if rolling slows down.
-        else if (rolling &amp;&amp; rigid.velocity.magnitude &lt; 0.01f)
+        else if (rolling && rigid.velocity.magnitude < 0.01f)
         {
             rolling = false;
             audioSource.Stop();
@@ -509,7 +509,7 @@ public class SphereSounds : MonoBehaviour
 ## 第 6 章 – 空間マッピング
 
 ここで、ゲーム
-ボードを現実世界の現実の物体に持ち込むために、[*空間マッピング*](https://developer.microsoft.com/ja-jp/windows/holographic/spatial_mapping)を使用します。
+ボードを現実世界の現実の物体に持ち込むために、[*空間マッピング*](https://developer.microsoft.com/ja-jp/windows/mixed-reality/spatial_mapping)を使用します。
 
 ### 目標
 
@@ -535,7 +535,7 @@ public class SphereSounds : MonoBehaviour
 -   TapToPlaceParent スクリプトを Stage オブジェクトにドラッグします。
 -   Visual Studio で TapToPlaceParent スクリプトを開き、次のようにコードを変更します。
 
-TapToPlaceParent.cs 
+TapToPlaceParent.cs
 ```cs
 using UnityEngine;
 
@@ -565,7 +565,7 @@ public class TapToPlaceParent : MonoBehaviour
     void Update()
     {
         // If the user is in placing mode,
-        // update the placement to match the user&#39;s gaze.
+        // update the placement to match the user's gaze.
 
         if (placing)
         {
@@ -577,11 +577,11 @@ public class TapToPlaceParent : MonoBehaviour
             if (Physics.Raycast(headPosition, gazeDirection, out hitInfo,
                 30.0f, SpatialMapping.PhysicsRaycastMask))
             {
-                // Move this object&#39;s parent object to
+                // Move this object's parent object to
                 // where the raycast hit the Spatial Mapping mesh.
                 this.transform.parent.position = hitInfo.point;
 
-                // Rotate this object&#39;s parent object to face the user.
+                // Rotate this object's parent object to face the user.
                 Quaternion toQuat = Camera.main.transform.localRotation;
                 toQuat.x = 0;
                 toQuat.z = 0;
@@ -613,7 +613,7 @@ public class TapToPlaceParent : MonoBehaviour
 -   HitTarget スクリプトを Target オブジェクトにドラッグします。
 -   Visual Studio で HitTarget スクリプトを開き、次のようにコードを変更します。
 
-HitTarget.cs 
+HitTarget.cs
 ```cs
 using UnityEngine;
 
