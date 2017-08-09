@@ -1,4 +1,4 @@
-## 座標系
+# 座標系
 
 ホログラフィック
 アプリの大きな目的は、[*ホログラム*](https://developer.microsoft.com/ja-jp/windows/mixed-reality/hologram)を仮想世界に配置し、実物のように見せ、実物のように音を出すことです。そのためには、仮想世界の中でユーザーにとって意味のある場所に、正確な位置と向きでホログラムを配置する必要があります。ホログラムの位置と向き、[*視線*](https://developer.microsoft.com/ja-jp/windows/mixed-reality/gaze)の向きや[*手の位置*](https://developer.microsoft.com/ja-jp/windows/mixed-reality/gestures)などのジオメトリの位置と向きを論理的に判断する際に、HoloLens
