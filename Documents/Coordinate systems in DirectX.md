@@ -23,13 +23,13 @@ Holographic API によって提供される空間認識の基礎を成します�
 
     -   [3.5 必要に応じたアンカーストアのクリア](Coordinate%20systems%20in%20DirectX.md#必要に応じたアンカーストアのクリア)
 
-    -   [3.6 例:アンカー座標系と静止座標系との関連付け](Coordinate%20systems%20in%20DirectX.md#例:アンカー座標系と静止座標系との関連付け)
+    -   [3.6 例:アンカー座標系と静止座標系との関連付け](Coordinate%20systems%20in%20DirectX.md#例-アンカー座標系と静止座標系との関連付け)
 
 -   [4 デバイスの従属座標系を使用するホログラムの作成](Coordinate%20systems%20in%20DirectX.md#デバイスの従属座標系を使用するホログラムの作成)
 
     -   [4.1 デバイスに従属する座標系の使用](Coordinate%20systems%20in%20DirectX.md#デバイスに従属する座標系の使用)
 
-    -   [4.2 空間ポインターポーズの取得と、ユーザーの視線への追従](Coordinate%20systems%20in%20DirectX.md#空間ポインターポーズの取得と、ユーザーの視線への追従)
+    -   [4.2 空間ポインターポーズの取得と、ユーザーの視線への追従](Coordinate%20systems%20in%20DirectX.md#空間ポインターポーズの取得とユーザーの視線への追従)
 
     -   [4.3 カメラに合わせたホログラムの回転](Coordinate%20systems%20in%20DirectX.md#カメラに合わせたホログラムの回転)
 
@@ -273,8 +273,7 @@ SpatialAnchor の独自のインメモリデータベースが必要な場合が
 
 ```cs
 // This is an in-memory anchor list that is separate from the anchor store.
-// These anchors may be used, reasoned about, and so on before
-committing the collection to the store.
+// These anchors may be used, reasoned about, and so on before committing the collection to the store.
 
 Windows::Foundation::Collections::IMap&lt;Platform::String\^,
 Windows::Perception::Spatial::SpatialAnchor\^&gt;\^ m\_anchorMap;
@@ -289,8 +288,7 @@ Windows::Perception::Spatial::SpatialAnchor\^&gt;\^ m\_anchorMap;
 // LoadFromAnchorStore: Loads all anchors from the app's anchor store into memory.
 //
 // The anchors are stored in memory using an IMap, which stores anchors using a string identifier. Any string can be used as
-// the identifier; it can have meaning to the app, such as
-"Game\_Leve1\_CouchAnchor," or it can be a GUID that is generated
+// the identifier; it can have meaning to the app, such as "Game\_Leve1\_CouchAnchor," or it can be a GUID that is generated
 // by the app.
 //
 void SampleSpatialAnchorHelper::LoadFromAnchorStore()
@@ -385,8 +383,7 @@ m\_referenceFrame;
 HolographicTagAlongSampleMain.cpp での変更
 ```cs
 // In this example, we create a reference frame attached to the device.
-m\_referenceFrame =
-m\_locator-&gt;CreateAttachedFrameOfReferenceAtCurrentHeading();
+m\_referenceFrame = m\_locator-&gt;CreateAttachedFrameOfReferenceAtCurrentHeading();
 ```
 
 更新中、座標系の予測によって得られるタイムスタンプからこの座標系を取得するようになります。
@@ -396,9 +393,7 @@ m\_locator-&gt;CreateAttachedFrameOfReferenceAtCurrentHeading();
 // associated with the current frame. Later, this coordinate system is used for
 // for creating the stereo view matrices when rendering the sample content.
 
-SpatialCoordinateSystem\^ currentCoordinateSystem =
-
-m\_referenceFrame-&gt;GetStationaryCoordinateSystemAtTimestamp(prediction-&gt;Timestamp);
+SpatialCoordinateSystem\^ currentCoordinateSystem = m\_referenceFrame-&gt;GetStationaryCoordinateSystemAtTimestamp(prediction-&gt;Timestamp);
 ```
 
 ## 空間ポインターポーズの取得と、ユーザーの視線への追従
@@ -406,8 +401,7 @@ m\_referenceFrame-&gt;GetStationaryCoordinateSystemAtTimestamp(prediction-&gt;Ti
 今回のサンプルホログラムをユーザーの[*視線*](https://developer.microsoft.com/ja-jp/windows/mixed-reality/gaze)に追従させます。これは Holographic Shell がユーザーの視線に追従するのと同じです。このためには、同じタイムスタンプで SpatialPointerPose を取得する必要があります。
 
 ```cs
-SpatialPointerPose\^ pose = SpatialPointerPose::TryGetAtTimestamp(currentCoordinateSystem,
-prediction-&gt;Timestamp);
+SpatialPointerPose\^ pose = SpatialPointerPose::TryGetAtTimestamp(currentCoordinateSystem, prediction-&gt;Timestamp);
 ```
 
 この SpatialPointerPose に、[*ユーザー頭部の現在位置*](https://developer.microsoft.com/ja-jp/windows/mixed-reality/gaze_and_gestures_in_directx)に応じてホログラムの位置を決めるのに必要な情報が含まれています。
@@ -416,8 +410,7 @@ prediction-&gt;Timestamp);
 
 StationaryQuadRenderer::PositionHologram での変更
 ```cs
-const float& dtime =
-static\_cast&lt;float&gt;(timer.GetElapsedSeconds());
+const float& dtime = static\_cast&lt;float&gt;(timer.GetElapsedSeconds());
 if (pointerPose != nullptr)
 {
 // Get the gaze direction relative to the given coordinate system.
@@ -425,11 +418,10 @@ const float3 headPosition = pointerPose-&gt;Head-&gt;Position;
 const float3 headDirection = pointerPose-&gt;Head-&gt;ForwardDirection;
 // The tag-along hologram follows a point 2.0m in front of the user's gaze direction.
 static const float distanceFromUser = 2.0f; // meters
-const float3 gazeAtTwoMeters = headPosition + (distanceFromUser \*
-headDirection);
+const float3 gazeAtTwoMeters = headPosition + (distanceFromUser * headDirection);
+
 // Lerp the position, to keep the hologram comfortably stable.
-auto lerpedPosition = lerp(m\_position, gazeAtTwoMeters, dtime \*
-c\_lerpRate);
+auto lerpedPosition = lerp(m\_position, gazeAtTwoMeters, dtime * c_lerpRate);
 // This will be used as the translation component of the hologram's
 // model transform.
 SetPosition(lerpedPosition);
@@ -446,9 +438,8 @@ StationaryQuadRenderer::PositionHologram での変更
 /*
 const float3 offset = float3(0.13f, 0.0f, 0.f);
 static const float distanceFromUser = 2.2f; // meters
-const float3 gazeAtTwoMeters = headPosition + (distanceFromUser \*
-(headDirection + offset))
-\*/
+const float3 gazeAtTwoMeters = headPosition + (distanceFromUser * (headDirection + offset))
+*/
 ```
 ## カメラに合わせたホログラムの回転
 
@@ -457,26 +448,27 @@ const float3 gazeAtTwoMeters = headPosition + (distanceFromUser \*
 StationaryQuadRenderer::Update での変更
 ```cs
 // Seconds elapsed since previous frame.
-const float& dTime =
-static\_cast&lt;float&gt;(timer.GetElapsedSeconds());
+const float& dTime = static\_cast&lt;float&gt;(timer.GetElapsedSeconds());
+
 // Create a direction normal from the hologram's position to the origin of person space.
 // This is the z-axis rotation.
-XMVECTOR facingNormal = XMVector3Normalize(-XMLoadFloat3(&m\_position));
+XMVECTOR facingNormal = XMVector3Normalize(-XMLoadFloat3(&m_position));
+
 // Rotate the x-axis around the y-axis.
 // This is a 90-degree angle from the normal, i the xz-plane.
 // This is the x-axis rotation.
-XMVECTOR xAxisRotation =
-XMVector3Normalize(XMVectorSet(XMVectorGetZ(facingNormal), 0.f,
--XMVectorGetX(facingNormal), 0.f));
+XMVECTOR xAxisRotation = XMVector3Normalize(XMVectorSet(XMVectorGetZ(facingNormal), 0.f, -XMVectorGetX(facingNormal), 0.f));
+
 // Create a third normal to satisfy the conditions of a rotation matrix.
 // The cross product of the other two normals is at a 90-degree angle to
 // both normals. (Normalize the cross product to avoid floating-point math
 // errors.)
 // Note how the cross product will never be a zero-matrix because the two normals
 // are always at a 90-degree angle from one another.
-XMVECTOR yAxisRotation = XMVector3Normalize(XMVector3Cross(facingNormal,
-xAxisRotation));
+XMVECTOR yAxisRotation = XMVector3Normalize(XMVector3Cross(facingNormal, xAxisRotation));
+
 // Construct the 4x4 rotation matrix.
+
 // Rotate the quad to face the user.
 XMMATRIX rotationMatrix = XMMATRIX(
 xAxisRotation,
@@ -484,15 +476,16 @@ yAxisRotation,
 facingNormal,
 XMVectorSet(0.f, 0.f, 0.f, 1.f)
 );
+
 // Position the quad.
-const XMMATRIX modelTranslation =
-XMMatrixTranslationFromVector(XMLoadFloat3(&m\_position));
+const XMMATRIX modelTranslation = XMMatrixTranslationFromVector(XMLoadFloat3(&m_position));
+
 // The view and projection matrices are provided by the system; they are associated
 // with holographic cameras, and updated on a per-camera basis.
 // Here, we provide the model transform for the sample hologram. The model transform
 // matrix is transposed to prepare it for the shader.
-XMStoreFloat4x4(&m\_modelConstantBufferData.model,
-XMMatrixTranspose(rotationMatrix \* modelTranslation));
+XMStoreFloat4x4(&m_modelConstantBufferData.model,
+XMMatrixTranspose(rotationMatrix * modelTranslation));
 ```
 
 ## 画像安定のためのフォーカスポイントの設定
@@ -504,8 +497,8 @@ StationaryQuadRenderer::Update での変更
 // Determine velocity.
 // Even though the motion is spherical, the velocity is still linear
 // for image stabilization.
-auto& deltaX = m\_position - m\_lastPosition; // meters
-m\_velocity = deltaX / dTime; // meters per second
+auto& deltaX = m_position - m_lastPosition; // meters
+m_velocity = deltaX / dTime; // meters per second
 ```
 
 HolographicTagAlongSampleMain::Update での変更
@@ -515,10 +508,10 @@ HolographicTagAlongSampleMain::Update での変更
 // for each holographic camera.
 // In this example, we set position, normal, and velocity for a tag-along quad.
 float3& focusPointPosition =
-m\_stationaryQuadRenderer-&gt;GetPosition();
+m_stationaryQuadRenderer-&gt;GetPosition();
 float3 focusPointNormal = -normalize(focusPointPosition);
 float3& focusPointVelocity =
-m\_stationaryQuadRenderer-&gt;GetVelocity();
+m_stationaryQuadRenderer-&gt;GetVelocity();
 renderingParameters-&gt;SetFocusPoint(
 currentCoordinateSystem,
 focusPointPosition,
@@ -537,9 +530,9 @@ HolographicTagAlongSampleMain::Render での変更
 // every frame. This function refreshes the data in the constant buffer for
 // the holographic camera indicated by cameraPose.
 pCameraResources-&gt;UpdateViewProjectionBuffer(
-m\_deviceResources,
+m_deviceResources,
 cameraPose,
-m\_referenceFrame-&gt;GetStationaryCoordinateSystemAtTimestamp(prediction-&gt;Timestamp)
+m_referenceFrame-&gt;GetStationaryCoordinateSystemAtTimestamp(prediction-&gt;Timestamp)
 );
 ```
 
@@ -554,11 +547,9 @@ m\_referenceFrame-&gt;GetStationaryCoordinateSystemAtTimestamp(prediction-&gt;Ti
 AppMain::SetHolographicSpace での変更
 ```cs
 // Be able to respond to changes in the positional tracking state.
-m\_locatabilityChangedToken =
-m\_locator-&gt;LocatabilityChanged +=
-ref new Windows::Foundation::TypedEventHandler&lt;SpatialLocator\^,
-Object\^&gt;(
-std::bind(&HolographicApp1Main::OnLocatabilityChanged, this, \_1, \_2)
+m_locatabilityChangedToken = m_locator-&gt;LocatabilityChanged +=
+ref new Windows::Foundation::TypedEventHandler&lt;SpatialLocator^, Object^>(
+std::bind(&HolographicApp1Main::OnLocatabilityChanged, this, _1, _2)
 );
 ```
 
@@ -568,16 +559,15 @@ Visual Studio 2015 の Windows Holographic のアプリテンプレートには�
 
 AppMain.cpp での変更
 ```cs
-void HolographicApp1Main::OnLocatabilityChanged(SpatialLocator\^ sender,
-Object\^ args)
+void HolographicApp1Main::OnLocatabilityChanged(SpatialLocator^ sender, Object^ args)
 {
 switch (sender-&gt;Locatability)
 {
 case SpatialLocatability::Unavailable:
 // Holograms cannot be rendered.
 {
-String\^ message = L"Warning! Positional tracking is " +
-sender-&gt;Locatability.ToString() + L".\\n";
+String^ message = L"Warning! Positional tracking is " +
+sender-&gt;Locatability.ToString() + L".\n";
 OutputDebugStringW(message-&gt;Data());
 }
 break;
