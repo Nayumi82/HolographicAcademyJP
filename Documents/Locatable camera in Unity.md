@@ -10,7 +10,7 @@
 
     -   [2.2 ファイルへの写真のキャプチャ](Locatable%20camera%20in%20Unity.md#ファイルへの写真のキャプチャ)
 
-    -   [2.3 Texture2Dへの写真のキャプチャ](Locatable%20camera%20in%20Unity.md#Texture2D-への写真のキャプチャ)
+    -   [2.3 Texture2Dへの写真のキャプチャ](Locatable%20camera%20in%20Unity.md#texture2d-への写真のキャプチャ)
 
     -   [2.4 写真のキャプチャとキャプチャしたバイト列そのものの操作](Locatable%20camera%20in%20Unity.md#写真のキャプチャとキャプチャしたバイト列そのものの操作)
 
