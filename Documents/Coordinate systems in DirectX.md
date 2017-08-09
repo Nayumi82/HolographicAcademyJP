@@ -112,11 +112,11 @@ SpatialAnchor を[*SpatialAnchorStore*](https://msdn.microsoft.com/ja-jp/library
 
 ```cs
 // Check for new input state since the last frame.
-SpatialInteractionSourceState\^ pointerState = m\_spatialInputHandler-&gt;CheckForInput();
+SpatialInteractionSourceState^ pointerState = m_spatialInputHandler-&gt;CheckForInput();
 if (pointerState != nullptr)
 {
 // Try to get the pointer pose relative to the SpatialStationaryReferenceFrame.
-SpatialPointerPose\^ pointerPose = pointerState-&gt;TryGetPointerPose(currentCoordinateSystem);
+SpatialPointerPose^ pointerPose = pointerState-&gt;TryGetPointerPose(currentCoordinateSystem);
 if (pointerPose != nullptr)
 {
 // When a Pressed gesture is detected, the anchor will be created two meters in front of the user.
@@ -129,21 +129,21 @@ const float3 headDirection = pointerPose-&gt;Head-&gt;ForwardDirection;
 static const float distanceFromUser = 2.0f;
 
 // meters
-const float3 gazeAtTwoMeters = headPosition + (distanceFromUser \*
+const float3 gazeAtTwoMeters = headPosition + (distanceFromUser *
 headDirection);
 
 // Create the anchor at position.
-SpatialAnchor\^ anchor = SpatialAnchor::TryCreateRelativeTo(currentCoordinateSystem,
+SpatialAnchor^ anchor = SpatialAnchor::TryCreateRelativeTo(currentCoordinateSystem,
 gazeAtTwoMeters);
-if ((anchor != nullptr) && (m\_spatialAnchorHelper != nullptr))
+if ((anchor != nullptr) && (m_spatialAnchorHelper != nullptr))
 {
 
 // In this example, we store the anchor in an IMap.
-auto anchorMap = m\_spatialAnchorHelper-&gt;GetAnchorMap();
+auto anchorMap = m_spatialAnchorHelper-&gt;GetAnchorMap();
 
 // Create an identifier for the anchor.
-String\^ id = ref new
-String(L"HolographicSpatialAnchorStoreSample\_Anchor") +
+String^ id = ref new
+String(L"HolographicSpatialAnchorStoreSample_Anchor") +
 anchorMap-&gt;Size;
 anchorMap-&gt;Insert(id-&gt;ToString(), anchor);
 }
@@ -167,27 +167,27 @@ anchorMap-&gt;Insert(id-&gt;ToString(), anchor);
 
 ```cs
 // Request the spatial anchor store, which is the WinRT object that will accept the imported anchor data.
-return create\_task(SpatialAnchorManager::RequestStoreAsync())
-.then(\[\](task&lt;SpatialAnchorStore\^&gt; previousTask)
+return create_task(SpatialAnchorManager::RequestStoreAsync())
+.then([](task&lt;SpatialAnchorStore^&gt; previousTask)
 {
-std::shared\_ptr&lt;SampleSpatialAnchorHelper&gt; newHelper = nullptr;
+std::shared_ptr&lt;SampleSpatialAnchorHelper&gt; newHelper = nullptr;
 try
 {
-SpatialAnchorStore\^ anchorStore = previousTask.get();
+SpatialAnchorStore^ anchorStore = previousTask.get();
 
 // Once the SpatialAnchorStore has been loaded by the system, we can create our helper class.
 // Using "new" to access private constructor
-newHelper = std::shared\_ptr&lt;SampleSpatialAnchorHelper&gt;(new
+newHelper = std::shared_ptr&lt;SampleSpatialAnchorHelper&gt;(new
 SampleSpatialAnchorHelper(anchorStore));
 
 // Now we can load anchors from the store.
 newHelper-&gt;LoadFromAnchorStore();
 }
-catch (Exception\^ exception)
+catch (Exception^ exception)
 {
 PrintWstringToDebugConsole(
 std::wstring(L"Exception while loading the anchor store: ") +
-exception-&gt;Message-&gt;Data() + L"\\n"
+exception-&gt;Message-&gt;Data() + L"\n"
 );
 }
 
@@ -199,11 +199,11 @@ return newHelper;
 アンカーを保存するために使用できる SpatialAnchorStoreが用意されます。これは IMapView で、文字列のキー値が SpatialAnchorのデータ値に関連付けられます。サンプル コードでは、これをプライベートクラスのメンバー変数に格納しています。この変数には、ヘルパークラスのパブリック関数を使用してアクセスします。
 
 ```cs
-SampleSpatialAnchorHelper::SampleSpatialAnchorHelper(SpatialAnchorStore\^ anchorStore)
+SampleSpatialAnchorHelper::SampleSpatialAnchorHelper(SpatialAnchorStore^ anchorStore)
 {
-m\_anchorStore = anchorStore;
-m\_anchorMap = ref new Platform::Collections::Map&lt;String\^,
-SpatialAnchor\^&gt;();
+m_anchorStore = anchorStore;
+m_anchorMap = ref new Platform::Collections::Map&lt;String^,
+SpatialAnchor^&gt;();
 }
 ```
 **メモ:** アンカーストアに対して保存と読み込みを行うには、忘れずに中断/再開のイベントにフックします。
@@ -211,9 +211,9 @@ SpatialAnchor\^&gt;();
 void HolographicSpatialAnchorStoreSampleMain::SaveAppState()
 {    
 // For example, store information in the SpatialAnchorStore.
-if (m\_spatialAnchorHelper != nullptr)
+if (m_spatialAnchorHelper != nullptr)
 {
-m\_spatialAnchorHelper-&gt;TrySaveToAnchorStore();
+m_spatialAnchorHelper-&gt;TrySaveToAnchorStore();
 }
 }
 void HolographicSpatialAnchorStoreSampleMain::LoadAppState()
@@ -243,15 +243,15 @@ bool SampleSpatialAnchorHelper::TrySaveToAnchorStore()
 bool success = true;
 
 // If access is denied, 'anchorStore' will not be obtained.
-if (m\_anchorStore != nullptr)
+if (m_anchorStore != nullptr)
 {
-for each (auto& pair in m\_anchorMap)
+for each (auto& pair in m_anchorMap)
 {
 auto const& id = pair-&gt;Key;
 auto const& anchor = pair-&gt;Value;
 
 // Try to save the anchors.
-if (!m\_anchorStore-&gt;TrySave(id, anchor))
+if (!m_anchorStore-&gt;TrySave(id, anchor))
 {
 // This may indicate the anchor ID is taken, or the anchor limit is reached for the app.
 success=false;
@@ -275,8 +275,8 @@ SpatialAnchor の独自のインメモリデータベースが必要な場合が
 // This is an in-memory anchor list that is separate from the anchor store.
 // These anchors may be used, reasoned about, and so on before committing the collection to the store.
 
-Windows::Foundation::Collections::IMap&lt;Platform::String\^,
-Windows::Perception::Spatial::SpatialAnchor\^&gt;\^ m\_anchorMap;
+Windows::Foundation::Collections::IMap&lt;Platform::String^,
+Windows::Perception::Spatial::SpatialAnchor^&gt;^ m_anchorMap;
 ```
 
 **メモ:** 復元するアンカーが、すぐに見つからないことがあります。たとえば、アンカーが別の部屋や、まったく別の建物にあるかもしれませ。AnchorStore
@@ -288,21 +288,21 @@ Windows::Perception::Spatial::SpatialAnchor\^&gt;\^ m\_anchorMap;
 // LoadFromAnchorStore: Loads all anchors from the app's anchor store into memory.
 //
 // The anchors are stored in memory using an IMap, which stores anchors using a string identifier. Any string can be used as
-// the identifier; it can have meaning to the app, such as "Game\_Leve1\_CouchAnchor," or it can be a GUID that is generated
+// the identifier; it can have meaning to the app, such as "Game_Leve1_CouchAnchor," or it can be a GUID that is generated
 // by the app.
 //
 void SampleSpatialAnchorHelper::LoadFromAnchorStore()
 {
 // If access is denied, 'anchorStore' will not be obtained.
-if (m\_anchorStore != nullptr)
+if (m_anchorStore != nullptr)
 {
 // Get all saved anchors.
-auto anchorMapView = m\_anchorStore-&gt;GetAllSavedAnchors();
+auto anchorMapView = m_anchorStore-&gt;GetAllSavedAnchors();
 for each (auto const& pair in anchorMapView)
 {
 auto const& id = pair-&gt;Key;
 auto const& anchor = pair-&gt;Value;
-m\_anchorMap-&gt;Insert(id, anchor);
+m_anchorMap-&gt;Insert(id, anchor);
 }
 }
 }
@@ -323,10 +323,10 @@ m\_anchorMap-&gt;Insert(id, anchor);
 void SampleSpatialAnchorHelper::ClearAnchorStore()
 {
 // If access is denied, 'anchorStore' will not be obtained.
-if (m\_anchorStore != nullptr)
+if (m_anchorStore != nullptr)
 {
 // Clear all anchors from the store.
-m\_anchorStore-&gt;Clear();
+m_anchorStore-&gt;Clear();
 }
 }
 ```
@@ -336,9 +336,9 @@ m\_anchorStore-&gt;Clear();
 アンカーが 1 つあり、そのアンカーの座標系のコンテンツを、既に他の大半のコンテンツに使用している SpatialStationaryReferenceFrame に関連付けるとします。アンカーの座標系から静止座標系への変換を取得するには、[*TryGetTransformTo*](https://msdn.microsoft.com/ja-jp/library/windows/apps/windows.perception.spatial.spatialcoordinatesystem.trygettransformto.aspx) を使用します。
 
 ```cs
-// In this code snippet, someAnchor is a SpatialAnchor\^ that has been initialized and is valid in the current environment.
+// In this code snippet, someAnchor is a SpatialAnchor^ that has been initialized and is valid in the current environment.
 float4x4 anchorSpaceToCurrentCoordinateSystem;
-SpatialCoordinateSystem\^ anchorSpace = someAnchor-&gt;CoordinateSystem;
+SpatialCoordinateSystem^ anchorSpace = someAnchor-&gt;CoordinateSystem;
 const auto tryTransform =
 anchorSpace-&gt;TryGetTransformTo(currentCoordinateSystem);
 if (tryTransform != nullptr)
@@ -376,14 +376,14 @@ Windows Holographic アプリテンプレートの変更について取り上げ
 HolographicTagAlongSampleMain.h での変更
 ```cs
 // A reference frame attached to the holographic camera.
-Windows::Perception::Spatial::SpatialLocatorAttachedFrameOfReference\^
-m\_referenceFrame;
+Windows::Perception::Spatial::SpatialLocatorAttachedFrameOfReference^
+m_referenceFrame;
 ```
 
 HolographicTagAlongSampleMain.cpp での変更
 ```cs
 // In this example, we create a reference frame attached to the device.
-m\_referenceFrame = m\_locator-&gt;CreateAttachedFrameOfReferenceAtCurrentHeading();
+m_referenceFrame = m_locator-&gt;CreateAttachedFrameOfReferenceAtCurrentHeading();
 ```
 
 更新中、座標系の予測によって得られるタイムスタンプからこの座標系を取得するようになります。
@@ -393,7 +393,7 @@ m\_referenceFrame = m\_locator-&gt;CreateAttachedFrameOfReferenceAtCurrentHeadin
 // associated with the current frame. Later, this coordinate system is used for
 // for creating the stereo view matrices when rendering the sample content.
 
-SpatialCoordinateSystem\^ currentCoordinateSystem = m\_referenceFrame-&gt;GetStationaryCoordinateSystemAtTimestamp(prediction-&gt;Timestamp);
+SpatialCoordinateSystem^ currentCoordinateSystem = m_referenceFrame-&gt;GetStationaryCoordinateSystemAtTimestamp(prediction-&gt;Timestamp);
 ```
 
 ## 空間ポインターポーズの取得と、ユーザーの視線への追従
@@ -401,7 +401,7 @@ SpatialCoordinateSystem\^ currentCoordinateSystem = m\_referenceFrame-&gt;GetSta
 今回のサンプルホログラムをユーザーの[*視線*](https://developer.microsoft.com/ja-jp/windows/mixed-reality/gaze)に追従させます。これは Holographic Shell がユーザーの視線に追従するのと同じです。このためには、同じタイムスタンプで SpatialPointerPose を取得する必要があります。
 
 ```cs
-SpatialPointerPose\^ pose = SpatialPointerPose::TryGetAtTimestamp(currentCoordinateSystem, prediction-&gt;Timestamp);
+SpatialPointerPose^ pose = SpatialPointerPose::TryGetAtTimestamp(currentCoordinateSystem, prediction-&gt;Timestamp);
 ```
 
 この SpatialPointerPose に、[*ユーザー頭部の現在位置*](https://developer.microsoft.com/ja-jp/windows/mixed-reality/gaze_and_gestures_in_directx)に応じてホログラムの位置を決めるのに必要な情報が含まれています。
@@ -410,7 +410,7 @@ SpatialPointerPose\^ pose = SpatialPointerPose::TryGetAtTimestamp(currentCoordin
 
 StationaryQuadRenderer::PositionHologram での変更
 ```cs
-const float& dtime = static\_cast&lt;float&gt;(timer.GetElapsedSeconds());
+const float& dtime = static_cast&lt;float&gt;(timer.GetElapsedSeconds());
 if (pointerPose != nullptr)
 {
 // Get the gaze direction relative to the given coordinate system.
@@ -421,7 +421,7 @@ static const float distanceFromUser = 2.0f; // meters
 const float3 gazeAtTwoMeters = headPosition + (distanceFromUser * headDirection);
 
 // Lerp the position, to keep the hologram comfortably stable.
-auto lerpedPosition = lerp(m\_position, gazeAtTwoMeters, dtime * c_lerpRate);
+auto lerpedPosition = lerp(m_position, gazeAtTwoMeters, dtime * c_lerpRate);
 // This will be used as the translation component of the hologram's
 // model transform.
 SetPosition(lerpedPosition);
@@ -448,7 +448,7 @@ const float3 gazeAtTwoMeters = headPosition + (distanceFromUser * (headDirection
 StationaryQuadRenderer::Update での変更
 ```cs
 // Seconds elapsed since previous frame.
-const float& dTime = static\_cast&lt;float&gt;(timer.GetElapsedSeconds());
+const float& dTime = static_cast&lt;float&gt;(timer.GetElapsedSeconds());
 
 // Create a direction normal from the hologram's position to the origin of person space.
 // This is the z-axis rotation.
