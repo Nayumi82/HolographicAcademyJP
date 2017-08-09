@@ -73,13 +73,13 @@ SpatialCoordinateSystemは、デバイスの位置を表す座標系など、他
 クラスを使用し、さらに[*CreateStationaryFrameOfReferenceAtCurrentLocation*](https://msdn.microsoft.com/ja-jp/library/windows/apps/windows.perception.spatial.spatiallocator.createstationaryframeofreferenceatcurrentlocation.aspx)
 を呼び出します。
 
-以下は Visual Studio テンプレート コードです。
+以下は Visual Studio テンプレートコードです。
 
 ```cs
 // The simplest way to render world-locked holograms is to create a stationary reference frame
-// when the app is launched. This is roughly analogous to creating a "world" coordinate system
-// with the origin placed at the device's position as the app is launched.
-referenceFrame = locator.CreateStationaryFrameOfReferenceAtCurrentLocation();
+           // when the app is launched. This is roughly analogous to creating a "world" coordinate system
+           // with the origin placed at the device's position as the app is launched.
+           referenceFrame = locator.CreateStationaryFrameOfReferenceAtCurrentLocation();
 ```
 
 -   静止座標系は空間全体と相対に最適な位置を示すよう設計されています。座標系内の個別の位置はわずかなずれが許容されます。これは、デバイスが環境について学習するため、正常な動作です。
@@ -112,43 +112,38 @@ SpatialAnchor を[*SpatialAnchorStore*](https://msdn.microsoft.com/ja-jp/library
 
 ```cs
 // Check for new input state since the last frame.
-SpatialInteractionSourceState^ pointerState = m_spatialInputHandler-&gt;CheckForInput();
-if (pointerState != nullptr)
-{
-// Try to get the pointer pose relative to the SpatialStationaryReferenceFrame.
-SpatialPointerPose^ pointerPose = pointerState-&gt;TryGetPointerPose(currentCoordinateSystem);
-if (pointerPose != nullptr)
-{
-// When a Pressed gesture is detected, the anchor will be created two meters in front of the user.
+   SpatialInteractionSourceState^ pointerState = m_spatialInputHandler->CheckForInput();
+   if (pointerState != nullptr)
+   {
+       // Try to get the pointer pose relative to the SpatialStationaryReferenceFrame.
+       SpatialPointerPose^ pointerPose = pointerState->TryGetPointerPose(currentCoordinateSystem);
+       if (pointerPose != nullptr)
+       {
+           // When a Pressed gesture is detected, the anchor will be created two meters in front of the user.
 
-// Get the gaze direction relative to the given coordinate system.
-const float3 headPosition = pointerPose-&gt;Head-&gt;Position;
-const float3 headDirection = pointerPose-&gt;Head-&gt;ForwardDirection;
+           // Get the gaze direction relative to the given coordinate system.
+           const float3 headPosition = pointerPose->Head->Position;
+           const float3 headDirection = pointerPose->Head->ForwardDirection;
 
-// The anchor position in the StationaryReferenceFrame.
-static const float distanceFromUser = 2.0f;
+           // The anchor position in the StationaryReferenceFrame.
+           static const float distanceFromUser = 2.0f; // meters
+           const float3 gazeAtTwoMeters = headPosition + (distanceFromUser * headDirection);
 
-// meters
-const float3 gazeAtTwoMeters = headPosition + (distanceFromUser *
-headDirection);
+           // Create the anchor at position.
+           SpatialAnchor^ anchor = SpatialAnchor::TryCreateRelativeTo(currentCoordinateSystem, gazeAtTwoMeters);
 
-// Create the anchor at position.
-SpatialAnchor^ anchor = SpatialAnchor::TryCreateRelativeTo(currentCoordinateSystem,
-gazeAtTwoMeters);
-if ((anchor != nullptr) && (m_spatialAnchorHelper != nullptr))
-{
+           if ((anchor != nullptr) && (m_spatialAnchorHelper != nullptr))
+           {
+               // In this example, we store the anchor in an IMap.
+               auto anchorMap = m_spatialAnchorHelper->GetAnchorMap();
 
-// In this example, we store the anchor in an IMap.
-auto anchorMap = m_spatialAnchorHelper-&gt;GetAnchorMap();
+               // Create an identifier for the anchor.
+               String^ id = ref new String(L"HolographicSpatialAnchorStoreSample_Anchor") + anchorMap->Size;
 
-// Create an identifier for the anchor.
-String^ id = ref new
-String(L"HolographicSpatialAnchorStoreSample_Anchor") +
-anchorMap-&gt;Size;
-anchorMap-&gt;Insert(id-&gt;ToString(), anchor);
-}
-}
-}
+               anchorMap->Insert(id->ToString(), anchor);
+           }
+       }
+   }
 ```
 
 ## SpatialAnchorStoreの非同期読み込みとキャッシュ
@@ -167,100 +162,106 @@ anchorMap-&gt;Insert(id-&gt;ToString(), anchor);
 
 ```cs
 // Request the spatial anchor store, which is the WinRT object that will accept the imported anchor data.
-return create_task(SpatialAnchorManager::RequestStoreAsync())
-.then([](task&lt;SpatialAnchorStore^&gt; previousTask)
-{
-std::shared_ptr&lt;SampleSpatialAnchorHelper&gt; newHelper = nullptr;
-try
-{
-SpatialAnchorStore^ anchorStore = previousTask.get();
+   return create_task(SpatialAnchorManager::RequestStoreAsync())
+       .then([](task<SpatialAnchorStore^> previousTask)
+   {
+       std::shared_ptr<SampleSpatialAnchorHelper> newHelper = nullptr;
 
-// Once the SpatialAnchorStore has been loaded by the system, we can create our helper class.
-// Using "new" to access private constructor
-newHelper = std::shared_ptr&lt;SampleSpatialAnchorHelper&gt;(new
-SampleSpatialAnchorHelper(anchorStore));
+       try
+       {
+           SpatialAnchorStore^ anchorStore = previousTask.get();
 
-// Now we can load anchors from the store.
-newHelper-&gt;LoadFromAnchorStore();
-}
-catch (Exception^ exception)
-{
-PrintWstringToDebugConsole(
-std::wstring(L"Exception while loading the anchor store: ") +
-exception-&gt;Message-&gt;Data() + L"\n"
-);
-}
+           // Once the SpatialAnchorStore has been loaded by the system, we can create our helper class.
 
-// Return the initialized class instance.
-return newHelper;
-});
+           // Using "new" to access private constructor
+           newHelper = std::shared_ptr<SampleSpatialAnchorHelper>(new SampleSpatialAnchorHelper(anchorStore));
+
+           // Now we can load anchors from the store.
+           newHelper->LoadFromAnchorStore();
+       }
+       catch (Exception^ exception)
+       {
+           PrintWstringToDebugConsole(
+               std::wstring(L"Exception while loading the anchor store: ") +
+               exception->Message->Data() +
+               L"\n"
+               );
+       }
+
+       // Return the initialized class instance.
+       return newHelper;
+   });
 ```
 
 アンカーを保存するために使用できる SpatialAnchorStoreが用意されます。これは IMapView で、文字列のキー値が SpatialAnchorのデータ値に関連付けられます。サンプル コードでは、これをプライベートクラスのメンバー変数に格納しています。この変数には、ヘルパークラスのパブリック関数を使用してアクセスします。
 
 ```cs
 SampleSpatialAnchorHelper::SampleSpatialAnchorHelper(SpatialAnchorStore^ anchorStore)
-{
-m_anchorStore = anchorStore;
-m_anchorMap = ref new Platform::Collections::Map&lt;String^,
-SpatialAnchor^&gt;();
-}
+   {
+       m_anchorStore = anchorStore;
+       m_anchorMap = ref new Platform::Collections::Map<String^, SpatialAnchor^>();
+   }
 ```
+
 **メモ:** アンカーストアに対して保存と読み込みを行うには、忘れずに中断/再開のイベントにフックします。
+
 ```cs
 void HolographicSpatialAnchorStoreSampleMain::SaveAppState()
-{    
-// For example, store information in the SpatialAnchorStore.
-if (m_spatialAnchorHelper != nullptr)
-{
-m_spatialAnchorHelper-&gt;TrySaveToAnchorStore();
-}
-}
+   {
+       // For example, store information in the SpatialAnchorStore.
+       if (m_spatialAnchorHelper != nullptr)
+       {
+           m_spatialAnchorHelper->TrySaveToAnchorStore();
+       }
+   }
+```
+
+```cs
 void HolographicSpatialAnchorStoreSampleMain::LoadAppState()
-{
-// For example, load information from the SpatialAnchorStore.
-LoadAnchorStore();
-}
+   {
+       // For example, load information from the SpatialAnchorStore.
+       LoadAnchorStore();
+   }
 ```
 
 ## アンカーストアへのコンテンツの保存
 
 システムによってアプリが中断するときは、空間アンカーをアンカーストアに保存する必要があります。アプリの実装での必要に応じ、任意の時点でアンカーをアンカーストアに保存することもできます。
 
-インメモリ アンカーを SpatialAnchorStoreに保存する準備ができたら、コレクション全体をループして各アンカーを保存します。
+インメモリアンカーを SpatialAnchorStore に保存する準備ができたら、コレクション全体をループして各アンカーを保存します。
 
 ```cs
 // TrySaveToAnchorStore: Stores all anchors from memory into the app's anchor store.
-//
-// For each anchor in memory, this function tries to store it in the app's AnchorStore. The operation will fail if
-// the anchor store already has an anchor by that name.
-//
-bool SampleSpatialAnchorHelper::TrySaveToAnchorStore()
-{
-// This function returns true if all the anchors in the in-memory collection are saved to the anchor
-// store. If zero anchors are in the in-memory collection, we will still return true because the
-// condition has been met.
-bool success = true;
+   //
+   // For each anchor in memory, this function tries to store it in the app's AnchorStore. The operation will fail if
+   // the anchor store already has an anchor by that name.
+   //
+   bool SampleSpatialAnchorHelper::TrySaveToAnchorStore()
+   {
+       // This function returns true if all the anchors in the in-memory collection are saved to the anchor
+       // store. If zero anchors are in the in-memory collection, we will still return true because the
+       // condition has been met.
+       bool success = true;
 
-// If access is denied, 'anchorStore' will not be obtained.
-if (m_anchorStore != nullptr)
-{
-for each (auto& pair in m_anchorMap)
-{
-auto const& id = pair-&gt;Key;
-auto const& anchor = pair-&gt;Value;
+       // If access is denied, 'anchorStore' will not be obtained.
+       if (m_anchorStore != nullptr)
+       {
+           for each (auto& pair in m_anchorMap)
+           {
+               auto const& id = pair->Key;
+               auto const& anchor = pair->Value;
 
-// Try to save the anchors.
-if (!m_anchorStore-&gt;TrySave(id, anchor))
-{
-// This may indicate the anchor ID is taken, or the anchor limit is reached for the app.
-success=false;
-}
-}
-}
+               // Try to save the anchors.
+               if (!m_anchorStore->TrySave(id, anchor))
+               {
+                   // This may indicate the anchor ID is taken, or the anchor limit is reached for the app.
+                   success=false;
+               }
+           }
+       }
 
-return success;
-}
+       return success;
+   }
 ```
 
 ## アプリ再開時のアンカーストアからのコンテンツの読み込み
@@ -273,78 +274,73 @@ SpatialAnchor の独自のインメモリデータベースが必要な場合が
 
 ```cs
 // This is an in-memory anchor list that is separate from the anchor store.
-// These anchors may be used, reasoned about, and so on before committing the collection to the store.
-
-Windows::Foundation::Collections::IMap&lt;Platform::String^,
-Windows::Perception::Spatial::SpatialAnchor^&gt;^ m_anchorMap;
+   // These anchors may be used, reasoned about, and so on before committing the collection to the store.
+   Windows::Foundation::Collections::IMap<Platform::String^, Windows::Perception::Spatial::SpatialAnchor^>^ m_anchorMap;
 ```
 
-**メモ:** 復元するアンカーが、すぐに見つからないことがあります。たとえば、アンカーが別の部屋や、まったく別の建物にあるかもしれませ。AnchorStore
-から取得するアンカーは、使用する前に検索の可能性をテストします。
+**メモ:** 復元するアンカーが、すぐに見つからないことがあります。たとえば、アンカーが別の部屋や、まったく別の建物にあるかもしれませ。AnchorStoreから取得するアンカーは、使用する前に検索の可能性をテストします。
 
 今回のサンプル コードでは、AnchorStoreからすべてのアンカーを取得しています。これは必須要件ではありません。開発するアプリでは、実装にとって意味のある文字列キー値を使用して、アンカーの特定のサブセットを選択して取得する方が適切かもしれません。
 
 ```cs
 // LoadFromAnchorStore: Loads all anchors from the app's anchor store into memory.
-//
-// The anchors are stored in memory using an IMap, which stores anchors using a string identifier. Any string can be used as
-// the identifier; it can have meaning to the app, such as "Game_Leve1_CouchAnchor," or it can be a GUID that is generated
-// by the app.
-//
-void SampleSpatialAnchorHelper::LoadFromAnchorStore()
-{
-// If access is denied, 'anchorStore' will not be obtained.
-if (m_anchorStore != nullptr)
-{
-// Get all saved anchors.
-auto anchorMapView = m_anchorStore-&gt;GetAllSavedAnchors();
-for each (auto const& pair in anchorMapView)
-{
-auto const& id = pair-&gt;Key;
-auto const& anchor = pair-&gt;Value;
-m_anchorMap-&gt;Insert(id, anchor);
-}
-}
-}
+   //
+   // The anchors are stored in memory using an IMap, which stores anchors using a string identifier. Any string can be used as
+   // the identifier; it can have meaning to the app, such as "Game_Leve1_CouchAnchor," or it can be a GUID that is generated
+   // by the app.
+   //
+   void SampleSpatialAnchorHelper::LoadFromAnchorStore()
+   {
+       // If access is denied, 'anchorStore' will not be obtained.
+       if (m_anchorStore != nullptr)
+       {
+           // Get all saved anchors.
+           auto anchorMapView = m_anchorStore->GetAllSavedAnchors();
+           for each (auto const& pair in anchorMapView)
+           {
+               auto const& id = pair->Key;
+               auto const& anchor = pair->Value;
+               m_anchorMap->Insert(id, anchor);
+           }
+       }
+   }
 ```
 
 ## 必要に応じたアンカーストアのクリア
 
-アプリの状態をクリアして新しいデータを書き込む必要がある場合があります。ここでは、そのために [*SpatialAnchorStore*](https://msdn.microsoft.com/ja-jp/library/windows/apps/windows.perception.spatial.spatialanchorstore.aspx)
-を使用する方法を示します。
+アプリの状態をクリアして新しいデータを書き込む必要がある場合があります。ここでは、そのために [*SpatialAnchorStore*](https://msdn.microsoft.com/ja-jp/library/windows/apps/windows.perception.spatial.spatialanchorstore.aspx)を使用する方法を示します。
 
 今回のヘルパークラスを使うと、Clear 関数をラップする必要がほぼなくなります。サンプル実装でこの方法を選択したのは、今回のヘルパークラスに SpatialAnchorStore インスタンスを所有する役割を与えているためです。
 
 ```cs
 // ClearAnchorStore: Clears the AnchorStore for the app.
-//
-// This function clears the AnchorStore. It has no effect on the anchors stored in memory.
-//
-void SampleSpatialAnchorHelper::ClearAnchorStore()
-{
-// If access is denied, 'anchorStore' will not be obtained.
-if (m_anchorStore != nullptr)
-{
-// Clear all anchors from the store.
-m_anchorStore-&gt;Clear();
-}
-}
+   //
+   // This function clears the AnchorStore. It has no effect on the anchors stored in memory.
+   //
+   void SampleSpatialAnchorHelper::ClearAnchorStore()
+   {
+       // If access is denied, 'anchorStore' will not be obtained.
+       if (m_anchorStore != nullptr)
+       {
+           // Clear all anchors from the store.
+           m_anchorStore->Clear();
+       }
+   }
 ```
 
 ## 例: アンカー座標系と静止座標系との関連付け
 
-アンカーが 1 つあり、そのアンカーの座標系のコンテンツを、既に他の大半のコンテンツに使用している SpatialStationaryReferenceFrame に関連付けるとします。アンカーの座標系から静止座標系への変換を取得するには、[*TryGetTransformTo*](https://msdn.microsoft.com/ja-jp/library/windows/apps/windows.perception.spatial.spatialcoordinatesystem.trygettransformto.aspx) を使用します。
+アンカーが 1 つあり、そのアンカーの座標系のコンテンツを、既に他の大半のコンテンツに使用している SpatialStationaryReferenceFrame に関連付けるとします。アンカーの座標系から静止座標系への変換を取得するには、 [*TryGetTransformTo*](https://msdn.microsoft.com/ja-jp/library/windows/apps/windows.perception.spatial.spatialcoordinatesystem.trygettransformto.aspx) を使用します。
 
 ```cs
 // In this code snippet, someAnchor is a SpatialAnchor^ that has been initialized and is valid in the current environment.
-float4x4 anchorSpaceToCurrentCoordinateSystem;
-SpatialCoordinateSystem^ anchorSpace = someAnchor-&gt;CoordinateSystem;
-const auto tryTransform =
-anchorSpace-&gt;TryGetTransformTo(currentCoordinateSystem);
-if (tryTransform != nullptr)
-{
-anchorSpaceToCurrentCoordinateSystem = tryTransform-&gt;Value;
-}
+   float4x4 anchorSpaceToCurrentCoordinateSystem;
+   SpatialCoordinateSystem^ anchorSpace = someAnchor->CoordinateSystem;
+   const auto tryTransform = anchorSpace->TryGetTransformTo(currentCoordinateSystem);
+   if (tryTransform != nullptr)
+   {
+       anchorSpaceToCurrentCoordinateSystem = tryTransform->Value;
+   }
 ```
 
 このプロセスは 以下の 2 つの方法に有効です。
@@ -368,32 +364,29 @@ SpatialLocatorAttachedFrameOfReference を取得するには、SpatialLocator �
 
 ## デバイスに従属する座標系の使用
 
-ここでは、この API を使用してデバイスの従属座標系を有効にするための
-Windows Holographic アプリテンプレートの変更について取り上げます。この「従属」ホログラムは、動かないホログラムやアンカーで固定されたホログラムと共に機能します。また、デバイスが仮想世界の中で位置を一時的に見つけられない場合にも使用できます。
+ここでは、この API を使用してデバイスの従属座標系を有効にするための Windows Holographic アプリテンプレートの変更について取り上げます。この「従属」ホログラムは、動かないホログラムやアンカーで固定されたホログラムと共に機能します。また、デバイスが仮想世界の中で位置を一時的に見つけられない場合にも使用できます。
 
 まず、SpatialStationaryFrameOfReference の代わりに SpatialLocatorAttachedFrameOfReference を格納するようにテンプレートを変更します。
 
 HolographicTagAlongSampleMain.h での変更
 ```cs
 // A reference frame attached to the holographic camera.
-Windows::Perception::Spatial::SpatialLocatorAttachedFrameOfReference^
-m_referenceFrame;
+   Windows::Perception::Spatial::SpatialLocatorAttachedFrameOfReference^   m_referenceFrame;
 ```
 
 HolographicTagAlongSampleMain.cpp での変更
 ```cs
 // In this example, we create a reference frame attached to the device.
-m_referenceFrame = m_locator-&gt;CreateAttachedFrameOfReferenceAtCurrentHeading();
+   m_referenceFrame = m_locator->CreateAttachedFrameOfReferenceAtCurrentHeading();
 ```
 
 更新中、座標系の予測によって得られるタイムスタンプからこの座標系を取得するようになります。
-
 ```cs
 // Next, we get a coordinate system from the attached frame of reference that is
-// associated with the current frame. Later, this coordinate system is used for
-// for creating the stereo view matrices when rendering the sample content.
-
-SpatialCoordinateSystem^ currentCoordinateSystem = m_referenceFrame-&gt;GetStationaryCoordinateSystemAtTimestamp(prediction-&gt;Timestamp);
+   // associated with the current frame. Later, this coordinate system is used for
+   // for creating the stereo view matrices when rendering the sample content.
+   SpatialCoordinateSystem^ currentCoordinateSystem =
+       m_referenceFrame->GetStationaryCoordinateSystemAtTimestamp(prediction->Timestamp);
 ```
 
 ## 空間ポインターポーズの取得と、ユーザーの視線への追従
@@ -401,7 +394,7 @@ SpatialCoordinateSystem^ currentCoordinateSystem = m_referenceFrame-&gt;GetStati
 今回のサンプルホログラムをユーザーの[*視線*](https://developer.microsoft.com/ja-jp/windows/mixed-reality/gaze)に追従させます。これは Holographic Shell がユーザーの視線に追従するのと同じです。このためには、同じタイムスタンプで SpatialPointerPose を取得する必要があります。
 
 ```cs
-SpatialPointerPose^ pose = SpatialPointerPose::TryGetAtTimestamp(currentCoordinateSystem, prediction-&gt;Timestamp);
+SpatialPointerPose^ pose = SpatialPointerPose::TryGetAtTimestamp(currentCoordinateSystem, prediction->Timestamp);
 ```
 
 この SpatialPointerPose に、[*ユーザー頭部の現在位置*](https://developer.microsoft.com/ja-jp/windows/mixed-reality/gaze_and_gestures_in_directx)に応じてホログラムの位置を決めるのに必要な情報が含まれています。
@@ -410,22 +403,25 @@ SpatialPointerPose^ pose = SpatialPointerPose::TryGetAtTimestamp(currentCoordina
 
 StationaryQuadRenderer::PositionHologram での変更
 ```cs
-const float& dtime = static_cast&lt;float&gt;(timer.GetElapsedSeconds());
-if (pointerPose != nullptr)
-{
-// Get the gaze direction relative to the given coordinate system.
-const float3 headPosition = pointerPose-&gt;Head-&gt;Position;
-const float3 headDirection = pointerPose-&gt;Head-&gt;ForwardDirection;
-// The tag-along hologram follows a point 2.0m in front of the user's gaze direction.
-static const float distanceFromUser = 2.0f; // meters
-const float3 gazeAtTwoMeters = headPosition + (distanceFromUser * headDirection);
+const float& dtime = static_cast<float>(timer.GetElapsedSeconds());
 
-// Lerp the position, to keep the hologram comfortably stable.
-auto lerpedPosition = lerp(m_position, gazeAtTwoMeters, dtime * c_lerpRate);
-// This will be used as the translation component of the hologram's
-// model transform.
-SetPosition(lerpedPosition);
-}
+   if (pointerPose != nullptr)
+   {
+       // Get the gaze direction relative to the given coordinate system.
+       const float3 headPosition  = pointerPose->Head->Position;
+       const float3 headDirection = pointerPose->Head->ForwardDirection;
+
+       // The tag-along hologram follows a point 2.0m in front of the user's gaze direction.
+       static const float distanceFromUser = 2.0f; // meters
+       const float3 gazeAtTwoMeters = headPosition + (distanceFromUser * headDirection);
+
+       // Lerp the position, to keep the hologram comfortably stable.
+       auto lerpedPosition = lerp(m_position, gazeAtTwoMeters, dtime * c_lerpRate);
+
+       // This will be used as the translation component of the hologram's
+       // model transform.
+       SetPosition(lerpedPosition);
+   }
 ```
 
 **メモ:** デバックパネルの場合、ユーザーの視界を妨げないように、少し脇の位置にホログラムを移動することがあります。以下に、その方法の例を示します。
@@ -433,59 +429,60 @@ SetPosition(lerpedPosition);
 StationaryQuadRenderer::PositionHologram での変更
 ```cs
 // If you're making a debug view, you might not want the tag-along to be directly in the
-// center of your field of view. Use this code to position the hologram to the right of
-// the user's gaze direction.
-/*
-const float3 offset = float3(0.13f, 0.0f, 0.f);
-static const float distanceFromUser = 2.2f; // meters
-const float3 gazeAtTwoMeters = headPosition + (distanceFromUser * (headDirection + offset))
-*/
+       // center of your field of view. Use this code to position the hologram to the right of
+       // the user's gaze direction.
+       /*
+       const float3 offset = float3(0.13f, 0.0f, 0.f);
+       static const float distanceFromUser = 2.2f; // meters
+       const float3 gazeAtTwoMeters = headPosition + (distanceFromUser * (headDirection + offset));
+       */
 ```
+
 ## カメラに合わせたホログラムの回転
 
 単にホログラムの位置を決めるだけでは十分ではありません。ここでは 4 つのことを決めます。つまり、ユーザーに向き合うように対象物を回転することも必要です。この種のビルボード処理により、ホログラムをユーザー環境の一部に留めることができるため、この回転は仮想空間で行います。表示空間でのビルボード処理では、ホログラムがディスプレイの向きに固定されるため、快適には感じられません。この場合、表示空間のビルボード処理で立体的なレンダリングを妨げないような変換を取得するために、ビューの左右のマトリックスの間での内挿も必要になります。ここでは、ユーザーを向くように X 軸と Z 軸を中止に回転します。
 
 StationaryQuadRenderer::Update での変更
+
 ```cs
 // Seconds elapsed since previous frame.
-const float& dTime = static_cast&lt;float&gt;(timer.GetElapsedSeconds());
+   const float& dTime = static_cast<float>(timer.GetElapsedSeconds());
 
-// Create a direction normal from the hologram's position to the origin of person space.
-// This is the z-axis rotation.
-XMVECTOR facingNormal = XMVector3Normalize(-XMLoadFloat3(&m_position));
+   // Create a direction normal from the hologram's position to the origin of person space.
+   // This is the z-axis rotation.
+   XMVECTOR facingNormal = XMVector3Normalize(-XMLoadFloat3(&m_position));
 
-// Rotate the x-axis around the y-axis.
-// This is a 90-degree angle from the normal, i the xz-plane.
-// This is the x-axis rotation.
-XMVECTOR xAxisRotation = XMVector3Normalize(XMVectorSet(XMVectorGetZ(facingNormal), 0.f, -XMVectorGetX(facingNormal), 0.f));
+   // Rotate the x-axis around the y-axis.
+   // This is a 90-degree angle from the normal, in the xz-plane.
+   // This is the x-axis rotation.
+   XMVECTOR xAxisRotation = XMVector3Normalize(XMVectorSet(XMVectorGetZ(facingNormal), 0.f, -XMVectorGetX(facingNormal), 0.f));
 
-// Create a third normal to satisfy the conditions of a rotation matrix.
-// The cross product of the other two normals is at a 90-degree angle to
-// both normals. (Normalize the cross product to avoid floating-point math
-// errors.)
-// Note how the cross product will never be a zero-matrix because the two normals
-// are always at a 90-degree angle from one another.
-XMVECTOR yAxisRotation = XMVector3Normalize(XMVector3Cross(facingNormal, xAxisRotation));
+   // Create a third normal to satisfy the conditions of a rotation matrix.
+   // The cross product  of the other two normals is at a 90-degree angle to
+   // both normals. (Normalize the cross product to avoid floating-point math
+   // errors.)
+   // Note how the cross product will never be a zero-matrix because the two normals
+   // are always at a 90-degree angle from one another.
+   XMVECTOR yAxisRotation = XMVector3Normalize(XMVector3Cross(facingNormal, xAxisRotation));
 
-// Construct the 4x4 rotation matrix.
+   // Construct the 4x4 rotation matrix.
 
-// Rotate the quad to face the user.
-XMMATRIX rotationMatrix = XMMATRIX(
-xAxisRotation,
-yAxisRotation,
-facingNormal,
-XMVectorSet(0.f, 0.f, 0.f, 1.f)
-);
+   // Rotate the quad to face the user.
+   XMMATRIX rotationMatrix = XMMATRIX(
+       xAxisRotation,
+       yAxisRotation,
+       facingNormal,
+       XMVectorSet(0.f, 0.f, 0.f, 1.f)
+       );
 
-// Position the quad.
-const XMMATRIX modelTranslation = XMMatrixTranslationFromVector(XMLoadFloat3(&m_position));
+   // Position the quad.
+   const XMMATRIX modelTranslation = XMMatrixTranslationFromVector(XMLoadFloat3(&m_position));
 
-// The view and projection matrices are provided by the system; they are associated
-// with holographic cameras, and updated on a per-camera basis.
-// Here, we provide the model transform for the sample hologram. The model transform
-// matrix is transposed to prepare it for the shader.
-XMStoreFloat4x4(&m_modelConstantBufferData.model,
-XMMatrixTranspose(rotationMatrix * modelTranslation));
+   // The view and projection matrices are provided by the system; they are associated
+   // with holographic cameras, and updated on a per-camera basis.
+   // Here, we provide the model transform for the sample hologram. The model transform
+   // matrix is transposed to prepare it for the shader.
+   XMStoreFloat4x4(&m_modelConstantBufferData.model, XMMatrixTranspose(rotationMatrix * modelTranslation));
 ```
 
 ## 画像安定のためのフォーカスポイントの設定
@@ -493,31 +490,31 @@ XMMatrixTranspose(rotationMatrix * modelTranslation));
 [*画像を安定させる*](https://developer.microsoft.com/ja-jp/windows/mixed-reality/Hologram_stability.html#stabilization_plane)ためにフォーカスポイントも設定します。追従ホロcsグラムで最適な結果を得るには、ホログラムの速度を使う必要があります。速度は次のように計算します。
 
 StationaryQuadRenderer::Update での変更
+
 ```cs
 // Determine velocity.
-// Even though the motion is spherical, the velocity is still linear
-// for image stabilization.
-auto& deltaX = m_position - m_lastPosition; // meters
-m_velocity = deltaX / dTime; // meters per second
+   // Even though the motion is spherical, the velocity is still linear
+   // for image stabilization.
+   auto& deltaX = m_position - m_lastPosition; // meters
+   m_velocity = deltaX / dTime; // meters per second
 ```
 
 HolographicTagAlongSampleMain::Update での変更
+
 ```cs
 // SetFocusPoint informs the system about a specific point in your scene to
-// prioritize for image stabilization. The focus point is set independently
-// for each holographic camera.
-// In this example, we set position, normal, and velocity for a tag-along quad.
-float3& focusPointPosition =
-m_stationaryQuadRenderer-&gt;GetPosition();
-float3 focusPointNormal = -normalize(focusPointPosition);
-float3& focusPointVelocity =
-m_stationaryQuadRenderer-&gt;GetVelocity();
-renderingParameters-&gt;SetFocusPoint(
-currentCoordinateSystem,
-focusPointPosition,
-focusPointNormal,
-focusPointVelocity
-);
+   // prioritize for image stabilization. The focus point is set independently
+   // for each holographic camera.
+   // In this example, we set position, normal, and velocity for a tag-along quad.
+   float3& focusPointPosition = m_stationaryQuadRenderer->GetPosition();
+   float3  focusPointNormal   = -normalize(focusPointPosition);
+   float3& focusPointVelocity = m_stationaryQuadRenderer->GetVelocity();
+   renderingParameters->SetFocusPoint(
+       currentCoordinateSystem,
+       focusPointPosition,
+       focusPointNormal,
+       focusPointVelocity
+       );
 ```
 
 ## 従属ホログラムのレンダリング
@@ -527,13 +524,13 @@ focusPointVelocity
 HolographicTagAlongSampleMain::Render での変更
 ```cs
 // The view and projection matrices for each holographic camera will change
-// every frame. This function refreshes the data in the constant buffer for
-// the holographic camera indicated by cameraPose.
-pCameraResources-&gt;UpdateViewProjectionBuffer(
-m_deviceResources,
-cameraPose,
-m_referenceFrame-&gt;GetStationaryCoordinateSystemAtTimestamp(prediction-&gt;Timestamp)
-);
+   // every frame. This function refreshes the data in the constant buffer for
+   // the holographic camera indicated by cameraPose.
+   pCameraResources->UpdateViewProjectionBuffer(
+       m_deviceResources,
+       cameraPose,
+       m_referenceFrame->GetStationaryCoordinateSystemAtTimestamp(prediction->Timestamp)
+       );
 ```
 
 以上です。ホログラムはユーザーの視線の前方 2 メートルの位置を「追う」ようになります。
@@ -547,10 +544,11 @@ m_referenceFrame-&gt;GetStationaryCoordinateSystemAtTimestamp(prediction-&gt;Tim
 AppMain::SetHolographicSpace での変更
 ```cs
 // Be able to respond to changes in the positional tracking state.
-m_locatabilityChangedToken = m_locator-&gt;LocatabilityChanged +=
-ref new Windows::Foundation::TypedEventHandler&lt;SpatialLocator^, Object^>(
-std::bind(&HolographicApp1Main::OnLocatabilityChanged, this, _1, _2)
-);
+   m_locatabilityChangedToken =
+       m_locator->LocatabilityChanged +=
+           ref new Windows::Foundation::TypedEventHandler<SpatialLocator^, Object^>(
+               std::bind(&HolographicApp1Main::OnLocatabilityChanged, this, _1, _2)
+               );
 ```
 
 アプリで LocatabilityChanged イベントを受け取ったら、必要に応じて動作を変更できます。たとえば、PositionalTrackingInhibited 状態では、アプリは通常動作を一時停止し、警告メッセージを表示する[*追従ホログラム*](https://developer.microsoft.com/ja-jp/windows/mixed-reality/Coordinate_systems_in_DirectX.html#create_holograms_using_a_device-attached_frame_of_reference)をレンダリングします。
@@ -560,33 +558,36 @@ Visual Studio 2015 の Windows Holographic のアプリテンプレートには�
 AppMain.cpp での変更
 ```cs
 void HolographicApp1Main::OnLocatabilityChanged(SpatialLocator^ sender, Object^ args)
-{
-switch (sender-&gt;Locatability)
-{
-case SpatialLocatability::Unavailable:
-// Holograms cannot be rendered.
-{
-String^ message = L"Warning! Positional tracking is " +
-sender-&gt;Locatability.ToString() + L".\n";
-OutputDebugStringW(message-&gt;Data());
-}
-break;
-// In the following three cases, it is still possible to place holograms using a
-// SpatialLocatorAttachedFrameOfReference.
-case SpatialLocatability::PositionalTrackingActivating:
-// The system is preparing to use positional tracking.
-case SpatialLocatability::OrientationOnly:
-// Positional tracking has not been activated.
-case SpatialLocatability::PositionalTrackingInhibited:
-// Positional tracking is temporarily inhibited. User action may be
-required
-// in order to restore positional tracking.
-break;
-case SpatialLocatability::PositionalTrackingActive:
-// Positional tracking is active. World-locked content can be rendered.
-break;
-}
-}
+   {
+       switch (sender->Locatability)
+       {
+       case SpatialLocatability::Unavailable:
+           // Holograms cannot be rendered.
+           {
+               String^ message = L"Warning! Positional tracking is " +
+                                           sender->Locatability.ToString() + L".\n";
+               OutputDebugStringW(message->Data());
+           }
+           break;
+
+       // In the following three cases, it is still possible to place holograms using a
+       // SpatialLocatorAttachedFrameOfReference.
+       case SpatialLocatability::PositionalTrackingActivating:
+           // The system is preparing to use positional tracking.
+
+       case SpatialLocatability::OrientationOnly:
+           // Positional tracking has not been activated.
+
+       case SpatialLocatability::PositionalTrackingInhibited:
+           // Positional tracking is temporarily inhibited. User action may be required
+           // in order to restore positional tracking.
+           break;
+
+       case SpatialLocatability::PositionalTrackingActive:
+           // Positional tracking is active. World-locked content can be rendered.
+           break;
+       }
+   }
 ```
 
 ## 空間マッピング
