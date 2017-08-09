@@ -102,7 +102,7 @@ SpatialAnchor を[*SpatialAnchorStore*](https://msdn.microsoft.com/ja-jp/library
 こうした調整を開発者自身で管理するには、[*RawCoordinateSystem*](https://msdn.microsoft.com/ja-jp/library/windows/apps/windows.perception.spatial.spatialanchor.rawcoordinatesystem.aspx)
 プロパティと、対応する[*RawCoordinateSystemAdjusted*](https://msdn.microsoft.com/ja-jp/library/windows/apps/windows.perception.spatial.spatialanchor.rawcoordinatesystemadjusted.aspx)イベントを使用します。
 
-## ホログラフィック コンテンツ用空間アンカーの作成
+## ホログラフィックコンテンツ用空間アンカーの作成
 
 ここで示すコード サンプルでは、Windows Holographic アプリテンプレートを変更して、「**押す**」というジェスチャーが検出されたときのアンカーを作成します。その後、レンダリング中にそのアンカーにキューブを配置します。
 
@@ -151,7 +151,7 @@ anchorMap-&gt;Insert(id-&gt;ToString(), anchor);
 }
 ```
 
-## SpatialAnchorStore の非同期読み込みとキャッシュ
+## SpatialAnchorStoreの非同期読み込みとキャッシュ
 
 ここでは、SampleSpatialAnchorHelperクラスの作成方法を取り上げます。このクラスは以下のような保存に対応します。
 
@@ -223,7 +223,7 @@ LoadAnchorStore();
 }
 ```
 
-## アンカー ストアへのコンテンツの保存
+## アンカーストアへのコンテンツの保存
 
 システムによってアプリが中断するときは、空間アンカーをアンカーストアに保存する必要があります。アプリの実装での必要に応じ、任意の時点でアンカーをアンカーストアに保存することもできます。
 
@@ -263,7 +263,7 @@ return success;
 }
 ```
 
-## アプリ再開時のアンカー ストアからのコンテンツの読み込み
+## アプリ再開時のアンカーストアからのコンテンツの読み込み
 
 アプリ再開時またはアプリ実装の必要に応じた任意の時点で、アンカーストアの IMapView から SpatialAnchor の独自のインメモリデータベースにアンカーを移すことにより AnchorStore に以前保存していたアンカーを復元できます。
 
@@ -310,12 +310,12 @@ m\_anchorMap-&gt;Insert(id, anchor);
 }
 ```
 
-## 必要に応じたアンカー ストアのクリア
+## 必要に応じたアンカーストアのクリア
 
 アプリの状態をクリアして新しいデータを書き込む必要がある場合があります。ここでは、そのために [*SpatialAnchorStore*](https://msdn.microsoft.com/ja-jp/library/windows/apps/windows.perception.spatial.spatialanchorstore.aspx)
 を使用する方法を示します。
 
-今回のヘルパー クラスを使うと、Clear 関数をラップする必要がほぼなくなります。サンプル実装でこの方法を選択したのは、今回のヘルパークラスに SpatialAnchorStore インスタンスを所有する役割を与えているためです。
+今回のヘルパークラスを使うと、Clear 関数をラップする必要がほぼなくなります。サンプル実装でこの方法を選択したのは、今回のヘルパークラスに SpatialAnchorStore インスタンスを所有する役割を与えているためです。
 
 ```cs
 // ClearAnchorStore: Clears the AnchorStore for the app.
@@ -401,7 +401,7 @@ SpatialCoordinateSystem\^ currentCoordinateSystem =
 m\_referenceFrame-&gt;GetStationaryCoordinateSystemAtTimestamp(prediction-&gt;Timestamp);
 ```
 
-## 空間ポインター ポーズの取得と、ユーザーの視線への追従
+## 空間ポインターポーズの取得と、ユーザーの視線への追従
 
 今回のサンプルホログラムをユーザーの[*視線*](https://developer.microsoft.com/ja-jp/windows/mixed-reality/gaze)に追従させます。これは Holographic Shell がユーザーの視線に追従するのと同じです。このためには、同じタイムスタンプで SpatialPointerPose を取得する必要があります。
 
@@ -495,7 +495,7 @@ XMStoreFloat4x4(&m\_modelConstantBufferData.model,
 XMMatrixTranspose(rotationMatrix \* modelTranslation));
 ```
 
-## 画像安定のためのフォーカス ポイントの設定
+## 画像安定のためのフォーカスポイントの設定
 
 [*画像を安定させる*](https://developer.microsoft.com/ja-jp/windows/mixed-reality/Hologram_stability.html#stabilization_plane)ためにフォーカスポイントも設定します。追従ホロcsグラムで最適な結果を得るには、ホログラムの速度を使う必要があります。速度は次のように計算します。
 
