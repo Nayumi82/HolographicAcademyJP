@@ -102,7 +102,7 @@ SpatialAnchor を[*SpatialAnchorStore*](https://msdn.microsoft.com/ja-jp/library
 こうした調整を開発者自身で管理するには、[*RawCoordinateSystem*](https://msdn.microsoft.com/ja-jp/library/windows/apps/windows.perception.spatial.spatialanchor.rawcoordinatesystem.aspx)
 プロパティと、対応する[*RawCoordinateSystemAdjusted*](https://msdn.microsoft.com/ja-jp/library/windows/apps/windows.perception.spatial.spatialanchor.rawcoordinatesystemadjusted.aspx)イベントを使用します。
 
-## ホログラフィックコンテンツ用空間アンカーの作成
+### ホログラフィックコンテンツ用空間アンカーの作成
 
 ここで示すコード サンプルでは、Windows Holographic アプリテンプレートを変更して、「**押す**」というジェスチャーが検出されたときのアンカーを作成します。その後、レンダリング中にそのアンカーにキューブを配置します。
 
@@ -146,7 +146,7 @@ SpatialAnchor を[*SpatialAnchorStore*](https://msdn.microsoft.com/ja-jp/library
    }
 ```
 
-## SpatialAnchorStoreの非同期読み込みとキャッシュ
+### SpatialAnchorStoreの非同期読み込みとキャッシュ
 
 ここでは、SampleSpatialAnchorHelperクラスの作成方法を取り上げます。このクラスは以下のような保存に対応します。
 
@@ -224,7 +224,7 @@ void HolographicSpatialAnchorStoreSampleMain::LoadAppState()
    }
 ```
 
-## アンカーストアへのコンテンツの保存
+### アンカーストアへのコンテンツの保存
 
 システムによってアプリが中断するときは、空間アンカーをアンカーストアに保存する必要があります。アプリの実装での必要に応じ、任意の時点でアンカーをアンカーストアに保存することもできます。
 
@@ -264,7 +264,7 @@ void HolographicSpatialAnchorStoreSampleMain::LoadAppState()
    }
 ```
 
-## アプリ再開時のアンカーストアからのコンテンツの読み込み
+### アプリ再開時のアンカーストアからのコンテンツの読み込み
 
 アプリ再開時またはアプリ実装の必要に応じた任意の時点で、アンカーストアの IMapView から SpatialAnchor の独自のインメモリデータベースにアンカーを移すことにより AnchorStore に以前保存していたアンカーを復元できます。
 
@@ -306,7 +306,7 @@ SpatialAnchor の独自のインメモリデータベースが必要な場合が
    }
 ```
 
-## 必要に応じたアンカーストアのクリア
+### 必要に応じたアンカーストアのクリア
 
 アプリの状態をクリアして新しいデータを書き込む必要がある場合があります。ここでは、そのために [*SpatialAnchorStore*](https://msdn.microsoft.com/ja-jp/library/windows/apps/windows.perception.spatial.spatialanchorstore.aspx)を使用する方法を示します。
 
@@ -328,7 +328,7 @@ SpatialAnchor の独自のインメモリデータベースが必要な場合が
    }
 ```
 
-## 例: アンカー座標系と静止座標系との関連付け
+### 例: アンカー座標系と静止座標系との関連付け
 
 アンカーが 1 つあり、そのアンカーの座標系のコンテンツを、既に他の大半のコンテンツに使用している SpatialStationaryReferenceFrame に関連付けるとします。アンカーの座標系から静止座標系への変換を取得するには、 [*TryGetTransformTo*](https://msdn.microsoft.com/ja-jp/library/windows/apps/windows.perception.spatial.spatialcoordinatesystem.trygettransformto.aspx) を使用します。
 
@@ -362,7 +362,7 @@ HoloLens の場合、この座標系の原点は、その位置が頭の回転�
 
 SpatialLocatorAttachedFrameOfReference を取得するには、SpatialLocator クラスを使用し、さらに CreateAttachedFrameOfReferenceAtCurrentHeading を呼び出します。
 
-## デバイスに従属する座標系の使用
+### デバイスに従属する座標系の使用
 
 ここでは、この API を使用してデバイスの従属座標系を有効にするための Windows Holographic アプリテンプレートの変更について取り上げます。この「従属」ホログラムは、動かないホログラムやアンカーで固定されたホログラムと共に機能します。また、デバイスが仮想世界の中で位置を一時的に見つけられない場合にも使用できます。
 
@@ -389,7 +389,7 @@ HolographicTagAlongSampleMain.cpp での変更
        m_referenceFrame->GetStationaryCoordinateSystemAtTimestamp(prediction->Timestamp);
 ```
 
-## 空間ポインターポーズの取得と、ユーザーの視線への追従
+### 空間ポインターポーズの取得と、ユーザーの視線への追従
 
 今回のサンプルホログラムをユーザーの[*視線*](https://developer.microsoft.com/ja-jp/windows/mixed-reality/gaze)に追従させます。これは Holographic Shell がユーザーの視線に追従するのと同じです。このためには、同じタイムスタンプで SpatialPointerPose を取得する必要があります。
 
@@ -438,7 +438,7 @@ StationaryQuadRenderer::PositionHologram での変更
        */
 ```
 
-## カメラに合わせたホログラムの回転
+### カメラに合わせたホログラムの回転
 
 単にホログラムの位置を決めるだけでは十分ではありません。ここでは 4 つのことを決めます。つまり、ユーザーに向き合うように対象物を回転することも必要です。この種のビルボード処理により、ホログラムをユーザー環境の一部に留めることができるため、この回転は仮想空間で行います。表示空間でのビルボード処理では、ホログラムがディスプレイの向きに固定されるため、快適には感じられません。この場合、表示空間のビルボード処理で立体的なレンダリングを妨げないような変換を取得するために、ビューの左右のマトリックスの間での内挿も必要になります。ここでは、ユーザーを向くように X 軸と Z 軸を中止に回転します。
 
@@ -485,7 +485,7 @@ StationaryQuadRenderer::Update での変更
    XMStoreFloat4x4(&m_modelConstantBufferData.model, XMMatrixTranspose(rotationMatrix * modelTranslation));
 ```
 
-## 画像安定のためのフォーカスポイントの設定
+### 画像安定のためのフォーカスポイントの設定
 
 [*画像を安定させる*](https://developer.microsoft.com/ja-jp/windows/mixed-reality/Hologram_stability.html#stabilization_plane)ためにフォーカスポイントも設定します。追従ホロcsグラムで最適な結果を得るには、ホログラムの速度を使う必要があります。速度は次のように計算します。
 
@@ -517,7 +517,7 @@ HolographicTagAlongSampleMain::Update での変更
        );
 ```
 
-## 従属ホログラムのレンダリング
+### 従属ホログラムのレンダリング
 
 この例では、SpatialLocatorAttachedReferenceFrame の座標系でホログラムをレンダリングします。これは、ここまでホログラムを位置付けてきた座標系です(他の座標系を使ってレンダリングする場合は、デバイスの従属座標系からその座標系への変換を取得する必要があります)。
 

@@ -24,11 +24,11 @@ HoloLens には、世界を映し出すカメラがデバイス正面に搭載�
 
     -   [3.1 カメラシェーダーによる世界の描画](Locatable%20camera.md#カメラシェーダーによる世界の描画)
 
-    -   [3.3 タグ、パターン、ポスター、オブジェクトの追跡](Locatable%20camera.md#タグ、パターン、ポスター、オブジェクトの追跡)
+    -   [3.3 タグ、パターン、ポスター、オブジェクトの追跡](Locatable%20camera.md#タグパターンポスターオブジェクトの追跡)
 
     -   [3.4 カメラ位置からのホログラムのレンダリング](Locatable%20camera.md#カメラ位置からのホログラムのレンダリング)
 
-    -   [3.5 LED やその他のレコグナイザーライブラリを使用した、現実世界で静止状態または移動中のタグ付けされた対象物や顔の追跡と特定](Locatable%20camera.md#led-やその他のレコグナイザーライブラリを使用した、現実世界で静止状態または移動中のタグ付けされた対象物や顔の追跡と特定)
+    -   [3.5 LED やその他のレコグナイザーライブラリを使用した、現実世界で静止状態または移動中のタグ付けされた対象物や顔の追跡と特定](Locatable%20camera.md#led-やその他のレコグナイザーライブラリを使用した現実世界で静止状態または移動中のタグ付けされた対象物や顔の追跡と特定)
 
 -   [4 関連項目](Locatable%20camera.md#関連項目)
 
@@ -72,17 +72,13 @@ HoloLens のドキュメントでは、「カメラ」が「仮想ゲームカ�
   MFSampleExtension\_Spatial\_CameraProjectionTransform   Blob ([*Matrix4x4*](https://msdn.microsoft.com/ja-jp/library/windows/apps/windows.foundation.numerics.matrix4x4.aspx))                                  {47F9FCB5-2A02-4F26-A477-792FDF95886A}   カメラのプロジェクション変換を格納
 
 プロジェクション変換は、画像平面にマップされるレンズ固有のプロパティ(焦点距離、プロジェクションの中心、歪み) を表します。画像平面の範囲は X 軸も Y 軸も -1 ～ 1 です。
-
-Matrix4x4 形式 項
-
-m11 m12 m13 m14 fx 0 0 0
-
-m21 m22 m23 m24 skew fy 0 0
-
-m31 m32 m33 m34 cx cy A -1
-
-m41 m42 m43 m44 0 0 B 0
-
+```cs
+Matrix4x4 　形式 　　　　　　項
+   m11 m12 m13 m14      fx    0   0   0
+   m21 m22 m23 m24     skew  fy   0   0
+   m31 m32 m33 m34      cx   cy   A  -1
+   m41 m42 m43 m44       0    0   B   0
+```
 アプリが変われば座標系も異なります。以下の図は、1 つのアプリのカメラピクセルの位置を指定するまでの流れを大まかに示しています。
 
 ![](media/Locatable camera/image1.png)
@@ -102,70 +98,42 @@ m41 m42 m43 m44 0 0 B 0
 ビュー変換とプロジェクション変換はどちらも 4x4 の行列ですが、利用方法は若干異なります。違いの 1
 つは、プロジェクション変換実行後に「wで正規化」することです。プロジェクション変換でのこの追加手順によって、複数の異なる 3D 位置が最終的には画面上の同じ 2D 位置になることをシミュレーションしています(つまり、特定の光線に沿うものはすべて同じピクセルに表示されます)。そのため、(シェーダーコードでの) 重要なポイントは以下のようになります。
 
+```cs
 // Usual 3d math:
-
-float4x4 WorldToCamera = inverse( CameraToWorld );
-
-float4 CameraSpacePos = mul( WorldToCamera, float4( WorldSpacePos.xyz, 1
-) ); // use 1 as the W component
-
-// Projection math:
-
-float4 ImagePosUnnormalized = mul( CameraProjection, float4(
-CameraSpacePos.xyz, 1 ) ); // use 1 as the W component
-
-float2 ImagePosProjected = ImagePosUnnormalized.xy /
-ImagePosUnnormalized.w; // normalize by W, gives -1 to 1 space
-
-float2 ImagePosZeroToOne = ( ImagePosProjected \* 0.5 ) + float2( 0.5,
-0.5 ); // good for GPU textures
-
-int2 PixelPos = int2( ImagePosZeroToOne.x \* ImageWidth, ( 1 -
-ImagePosZeroToOne.y ) \* ImageHeight ); // good for CPU textures
+ float4x4 WorldToCamera = inverse( CameraToWorld );
+ float4 CameraSpacePos = mul( WorldToCamera, float4( WorldSpacePos.xyz, 1 ) ); // use 1 as the W component
+ // Projection math:
+ float4 ImagePosUnnormalized = mul( CameraProjection, float4( CameraSpacePos.xyz, 1 ) ); // use 1 as the W component
+ float2 ImagePosProjected = ImagePosUnnormalized.xy / ImagePosUnnormalized.w; // normalize by W, gives -1 to 1 space
+ float2 ImagePosZeroToOne = ( ImagePosProjected * 0.5 ) + float2( 0.5, 0.5 ); // good for GPU textures
+ int2 PixelPos = int2( ImagePosZeroToOne.x * ImageWidth, ( 1 - ImagePosZeroToOne.y ) * ImageHeight ); // good for CPU textures
+```
 
 ## ピクセルからアプリ指定の座標系への変換
 
 ピクセルからワールド座標系への変換はやや複雑です。
-
-float2 ImagePosZeroToOne = float2( PixelPos.x / ImageWidth, 1.0 -
-(PixelPos.y / ImageHeight ) );
-
-float2 ImagePosProjected = ( ( ImagePosZeroToOne \* 2.0 ) - float2(1,1)
-); // -1 to 1 space
-
-float3 CameraSpacePos = UnProjectVector( Projection, float3(
-ImagePosProjected, 1) );
-
-float3 WorldSpaceRayPoint1 = mul( CameraToWorld, float4(0,0,0,1) ); //
-camera location in world space
-
-float3 WorldSpaceRayPoint2 = mul( CameraToWorld, CameraSpacePos ); //
-ray point in world space
+```cs
+float2 ImagePosZeroToOne = float2( PixelPos.x / ImageWidth, 1.0 - (PixelPos.y / ImageHeight ) );
+ float2 ImagePosProjected = ( ( ImagePosZeroToOne * 2.0 ) - float2(1,1) ); // -1 to 1 space
+ float3 CameraSpacePos = UnProjectVector( Projection, float3( ImagePosProjected, 1) );
+ float3 WorldSpaceRayPoint1 = mul( CameraToWorld, float4(0,0,0,1) ); // camera location in world space
+ float3 WorldSpaceRayPoint2 = mul( CameraToWorld, CameraSpacePos ); // ray point in world space
+```
 
 ここで、UnProject を次のように定義します。
-
+```cs
 public static Vector3 UnProjectVector(Matrix4x4 proj, Vector3 to)
-
-{
-
-Vector3 from = new Vector3(0, 0, 0);
-
-var axsX = proj.GetRow(0);
-
-var axsY = proj.GetRow(1);
-
-var axsZ = proj.GetRow(2);
-
-from.z = to.z / axsZ.z;
-
-from.y = (to.y - (from.z \* axsY.z)) / axsY.y;
-
-from.x = (to.x - (from.z \* axsX.z)) / axsX.x;
-
-return from;
-
-}
-
+ {
+   Vector3 from = new Vector3(0, 0, 0);
+   var axsX = proj.GetRow(0);
+   var axsY = proj.GetRow(1);
+   var axsZ = proj.GetRow(2);
+   from.z = to.z / axsZ.z;
+   from.y = (to.y - (from.z * axsY.z)) / axsY.y;
+   from.x = (to.x - (from.z * axsX.z)) / axsX.x;
+   return from;
+ }
+```
 あるポイントの世界の中での実際の位置を探すには、世界の 2 本の光線とその交点を見つけるか、そのポイントの既知サイズが必要になります。
 
 ## 歪み誤差
@@ -174,38 +142,29 @@ HoloLens では、ビデオストリームと静止画ストリームは、シ�
 
 ## ロケータブルカメラの使用シナリオ
 
-## 撮影した写真やビデオの世界への表示
+### 撮影した写真やビデオの世界への表示
 
 デバイスカメラのフレームには、「カメラから世界への」変換が含まれています。この変換は、画像撮影時のデバイスカメラの正確な位置を示すために使用できます。たとえば、小さなホログラフィックアイコンをこの場所 (CameraToWorld.MultiplyPoint(Vector3.zero))
 に位置指定したり、カメラが向いている方向(CameraToWorld.MultiplyVector(Vector3.forward))に小さな矢印を描画することもできます。
 
-## カメラ シェーダーによる世界の描画
+### カメラシェーダーによる世界の描画
 
 ここでは、デバイスカメラのビュー内での表示場所を基準として世界に着色するマテリアル「シェーダー」を作成します。実際には、すべての頂点の位置をカメラからの相対で算出してから、各ピクセル「プロジェクション行列」を利用して、ピクセルをどの画像テクスチャに関連付けるかを算出します。最後に、オプションとして、画像の隅をフェードアウトして、夢の中のでき事のように画像を表示します。
 
+```CS
 // In the vertex shader:
+ float4 worldSpace = mul( ObjectToWorld, float4( vertexPos.xyz, 1));
+ float4 cameraSpace = mul( CameraWorldToLocal, float4(worldSpace.xyz, 1));
 
-float4 worldSpace = mul( ObjectToWorld, float4( vertexPos.xyz, 1));
-
-float4 cameraSpace = mul( CameraWorldToLocal, float4(worldSpace.xyz,
-1));
-
-// In the pixel shader:
-
-float4 unprojectedTex = mul( CameraProjection, float4( cameraSpace .xyz,
-1));
-
-float2 projectedTex = (unprojectedTex.xy / unprojectedTex.w);
-
-float2 unitTexcoord = ((projectedTex \* 0.5) + float4(0.5, 0.5, 0, 0));
-
-float4 cameraTextureColor = tex2D(\_CameraTex, unitTexcoord);
-
-// Fade out edges for better look:
-
-float pctInView = saturate((1.0 - length(projectedTex.xy)) \* 3.0);
-
-float4 finalColor = float4( cameraTextureColor.rgb, pctInView );
+ // In the pixel shader:
+ float4 unprojectedTex = mul( CameraProjection, float4( cameraSpace .xyz, 1));
+ float2 projectedTex = (unprojectedTex.xy / unprojectedTex.w);
+ float2 unitTexcoord = ((projectedTex * 0.5) + float4(0.5, 0.5, 0, 0));
+ float4 cameraTextureColor = tex2D(_CameraTex, unitTexcoord);
+ // Fade out edges for better look:
+ float pctInView = saturate((1.0 - length(projectedTex.xy)) * 3.0);
+ float4 finalColor = float4( cameraTextureColor.rgb, pctInView );
+```
 
 ## タグ、パターン、ポスター、オブジェクトの追跡
 
@@ -241,41 +200,23 @@ float4 finalColor = float4( cameraTextureColor.rgb, pctInView );
 2.  [*関連付けられた特徴点*](https://developer.microsoft.com/ja-jp/windows/mixed-reality/#pixel_to_application-specified_coordinate_system)と、その世界での光線を検索します。
 
 3.  特徴点の辞書があり、特徴点ごとに世界での光線が複数本存在する場合、次のコードを使用してこれらの光線の交点を求めます。
-
+```CS
 public static Vector3 ClosestPointBetweenRays(
-
-Vector3 point1, Vector3 normalizedDirection1,
-
-Vector3 point2, Vector3 normalizedDirection2) {
-
-float directionProjection = Vector3.Dot(normalizedDirection1,
-normalizedDirection2);
-
-if (directionProjection == 1) {
-
-return point1; // parallel lines
-
-}
-
-float projection1 = Vector3.Dot(point2 - point1, normalizedDirection1);
-
-float projection2 = Vector3.Dot(point2 - point1, normalizedDirection2);
-
-float distanceAlongLine1 = (projection1 - directionProjection \*
-projection2) / (1 - directionProjection \* directionProjection);
-
-float distanceAlongLine2 = (projection2 - directionProjection \*
-projection1) / (directionProjection \* directionProjection - 1);
-
-Vector3 pointOnLine1 = point1 + distanceAlongLine1 \*
-normalizedDirection1;
-
-Vector3 pointOnLine2 = point2 + distanceAlongLine2 \*
-normalizedDirection2;
-
-return Vector3.Lerp(pointOnLine2, pointOnLine1, 0.5f);
-
-}
+   Vector3 point1, Vector3 normalizedDirection1,
+   Vector3 point2, Vector3 normalizedDirection2) {
+   float directionProjection = Vector3.Dot(normalizedDirection1, normalizedDirection2);
+   if (directionProjection == 1) {
+     return point1; // parallel lines
+   }
+   float projection1 = Vector3.Dot(point2 - point1, normalizedDirection1);
+   float projection2 = Vector3.Dot(point2 - point1, normalizedDirection2);
+   float distanceAlongLine1 = (projection1 - directionProjection * projection2) / (1 - directionProjection * directionProjection);
+   float distanceAlongLine2 = (projection2 - directionProjection * projection1) / (directionProjection * directionProjection - 1);
+   Vector3 pointOnLine1 = point1 + distanceAlongLine1 * normalizedDirection1;
+   Vector3 pointOnLine2 = point2 + distanceAlongLine2 * normalizedDirection2;
+   return Vector3.Lerp(pointOnLine2, pointOnLine1, 0.5f);
+ }
+```
 
 追跡対象タグの位置が 2 つ以上ある場合は、ユーザーの現在のシナリオに合うようにモデル化されたシーンの位置を調整できます。重力を想定しない場合は、タグの位置が 3 つ必要です。多くの場合は単純な配色を使用して、リアルタイムの追跡対象タグの位置を白い球体で表し、モデル化されたタグの位置を青い球体で表します。これにより、ユーザーは位置合わせの良し悪しを視覚的に判断できます。今回示すすべてのアプリでは、次のような設定を想定しています。
 
@@ -286,30 +227,18 @@ return Vector3.Lerp(pointOnLine2, pointOnLine1, 0.5f);
 -   カメラ特徴点の ID
 
 -   モデル化されたタグとリアルタイムタグ位置合わせするためにキャリブレーション空間を移動する動作(モデル化されたマーカー自体ではなく、親空間を移動することに注意します。ほかの接続はモデル化されたマーカーと相対に位置が決まるためです)
-
+```CS
 // In the two tags case:
-
-Vector3 idealDelta = (realTags\[1\].EstimatedWorldPos -
-realTags\[0\].EstimatedWorldPos);
-
-Vector3 curDelta = (modelledTags\[1\].transform.position -
-modelledTags\[0\].transform.position);
-
-if (IsAssumeGravity) {
-
-idealDelta.y = 0;
-
-curDelta.y = 0;
-
-}
-
-Quaternion deltaRot = Quaternion.FromToRotation(curDelta, idealDelta);
-
-trans.rotation = Quaternion.LookRotation(deltaRot \* trans.forward,
-trans.up);
-
-trans.position += realTags\[0\].EstimatedWorldPos -
-modelledTags\[0\].transform.position;
+ Vector3 idealDelta = (realTags[1].EstimatedWorldPos - realTags[0].EstimatedWorldPos);
+ Vector3 curDelta = (modelledTags[1].transform.position - modelledTags[0].transform.position);
+ if (IsAssumeGravity) {
+   idealDelta.y = 0;
+   curDelta.y = 0;
+ }
+ Quaternion deltaRot = Quaternion.FromToRotation(curDelta, idealDelta);
+ trans.rotation = Quaternion.LookRotation(deltaRot * trans.forward, trans.up);
+ trans.position += realTags[0].EstimatedWorldPos - modelledTags[0].transform.position;
+```
 
 ## カメラ位置からのホログラムのレンダリング
 
@@ -322,48 +251,27 @@ Skype ではこのしくみを利用して、HoloLens ユーザーが見てい�
 受信側では、Unity を使用して、同じ座標系を使用する HoloLens ユーザーの空間で、すべてのホログラムがすぐに同期されます。これにより、カメラの外部メタデータを使用して、ビデオフレームが撮影されたときにその HoloLens ユーザーが立っていた(他のすべてのホログラムと相対の) 世界での正確な位置に、Unity カメラを配置できます。さらに、カメラ固有の情報を使用して、表示がまったく同じになるようにしています。
 
 カメラを適切に設定したら、カメラから見たホログラムを Skype から受信したフレームと融合し、Graphics.Blit を使用して HoloLens ユーザーが目にする複合現実の視野を作り出します。
-
-private void OnFrameReceived(Texture frameTexture, Vector3
-cameraPosition, Quaternion cameraRotation, Matrix4x4
-cameraProjectionMatrix)
-
+```CS
+private void OnFrameReceived(Texture frameTexture, Vector3 cameraPosition, Quaternion cameraRotation, Matrix4x4 cameraProjectionMatrix)
 {
-
-//set material that will be blitted onto the RenderTexture
-
-this.compositeMaterial.SetTexture(CompositeRenderer.CameraTextureMaterialProperty,
-frameTexture);
-
-//set the camera to be that of the HoloLens's device camera
-
-this.Camera.transform.position = cameraPosition;
-
-this.Camera.transform.rotation = cameraRotation;
-
-this.Camera.projectionMatrix = cameraProjectionMatrix;
-
-//trigger the Graphics's Blit now that the frame and camera are set up
-
-this.TextureReady = false;
-
+    //set material that will be blitted onto the RenderTexture
+    this.compositeMaterial.SetTexture(CompositeRenderer.CameraTextureMaterialProperty, frameTexture);
+    //set the camera to be that of the HoloLens's device camera
+    this.Camera.transform.position = cameraPosition;
+    this.Camera.transform.rotation = cameraRotation;
+    this.Camera.projectionMatrix = cameraProjectionMatrix;
+    //trigger the Graphics's Blit now that the frame and camera are set up
+    this.TextureReady = false;
 }
-
-private void OnRenderImage(RenderTexture source, RenderTexture
-destination)
-
+private void OnRenderImage(RenderTexture source, RenderTexture destination)
 {
-
-if (!this.TextureReady)
-
-{
-
-Graphics.Blit(source, destination, this.compositeMaterial);
-
-this.TextureReady = true;
-
+    if (!this.TextureReady)
+    {
+        Graphics.Blit(source, destination, this.compositeMaterial);
+        this.TextureReady = true;
+    }
 }
-
-}
+```
 
 ## LED やその他のレコグナイザーライブラリを使用した、現実世界で静止状態または移動中のタグ付けされた対象物や顔の追跡と特定
 
