@@ -147,9 +147,9 @@ HoloLensでこの問題を解決するには、仮想世界の中でユーザー
 
 -   [*空間アンカー*](https://developer.microsoft.com/ja-jp/windows/mixed-reality/spatial_anchors)
 
--   [*ホログラフィック共有エクスペリエンス*](https://developer.microsoft.com/ja-jp/windows/mixed-reality/shared_holographic_experiences)
+-   [*ホログラフィック共有エクスペリエンス*](https://developer.microsoft.com/ja-jp/windows/mixed-reality/shared_holographic_experiences) ??
 
--   [*Unity の Worldアンカー*](https://developer.microsoft.com/ja-jp/windows/mixed-reality/world_anchor_in_unity)
+-   [*Unity の Worldアンカー*](https://developer.microsoft.com/ja-jp/windows/mixed-reality/world_anchor_in_unity) ??
 
 -   [*DirectXの座標系*](https://developer.microsoft.com/ja-jp/windows/mixed-reality/coordinate_systems_in_directx)
 
