@@ -9,39 +9,39 @@ Holographic API によって提供される空間認識の基礎を成します�
 
 -   [1 Windows の空間座標系](Coordinate%20systems%20in%20DirectX.md#windows-の空間座標系)
 
--   [2 仮想世界での静止座標系を使用したホログラムの配置](https://developer.microsoft.com/ja-jp/windows/holographic/coordinate_systems_in_directx#place_holograms_in_the_world_using_a_stationary_frame_of_reference)
+-   [2 仮想世界での静止座標系を使用したホログラムの配置](Coordinate%20systems%20in%20DirectX.md#仮想世界での静止座標系を使用したホログラムの配置)
 
--   [3 仮想世界での空間アンカーを使用したホログラムの配置](https://developer.microsoft.com/ja-jp/windows/holographic/coordinate_systems_in_directx#place_holograms_in_the_world_using_spatial_anchors)
+-   [3 仮想世界での空間アンカーを使用したホログラムの配置](Coordinate%20systems%20in%20DirectX.md#仮想世界での空間アンカーを使用したホログラムの配置)
 
-    -   [3.1 ホログラフィックコンテンツ用空間アンカーの作成](https://developer.microsoft.com/ja-jp/windows/holographic/coordinate_systems_in_directx#create_spatialanchors_for_holographic_content)
+    -   [3.1 ホログラフィックコンテンツ用空間アンカーの作成](Coordinate%20systems%20in%20DirectX.md#ホログラフィックコンテンツ用空間アンカーの作成)
 
-    -   [3.2 SpatialAnchorStoreの非同期読み込みとキャッシュ](https://developer.microsoft.com/ja-jp/windows/holographic/coordinate_systems_in_directx#asynchronously_load.2C_and_cache.2C_the_spatialanchorstore)
+    -   [3.2 SpatialAnchorStoreの非同期読み込みとキャッシュ](Coordinate%20systems%20in%20DirectX.md#spatialanchorstoreの非同期読み込みとキャッシュ)
 
-    -   [3.3 アンカーストアへのコンテンツの保存](https://developer.microsoft.com/ja-jp/windows/holographic/coordinate_systems_in_directx#save_content_to_the_anchor_store)
+    -   [3.3 アンカーストアへのコンテンツの保存](Coordinate%20systems%20in%20DirectX.md#アンカーストアへのコンテンツの保存)
 
-    -   [3.4 アプリ再開時のアンカーストアからのコンテンツの読み込み](https://developer.microsoft.com/ja-jp/windows/holographic/coordinate_systems_in_directx#load_content_from_the_anchor_store_when_the_app_resumes)
+    -   [3.4 アプリ再開時のアンカーストアからのコンテンツの読み込み](Coordinate%20systems%20in%20DirectX.md#アプリ再開時のアンカーストアからのコンテンツの読み込み)
 
-    -   [3.5 必要に応じたアンカーストアのクリア](https://developer.microsoft.com/ja-jp/windows/holographic/coordinate_systems_in_directx#clear_the_anchor_store.2C_when_needed)
+    -   [3.5 必要に応じたアンカーストアのクリア](Coordinate%20systems%20in%20DirectX.md#必要に応じたアンカーストアのクリア)
 
-    -   [3.6 例:アンカー座標系と静止座標系との関連付け](https://developer.microsoft.com/ja-jp/windows/holographic/coordinate_systems_in_directx#example:_relating_anchor_coordinate_systems_to_stationary_reference_frame_coordinate_systems)
+    -   [3.6 例:アンカー座標系と静止座標系との関連付け](Coordinate%20systems%20in%20DirectX.md#例:アンカー座標系と静止座標系との関連付け)
 
--   [4 デバイスの従属座標系を使用するホログラムの作成](https://developer.microsoft.com/ja-jp/windows/holographic/coordinate_systems_in_directx#create_holograms_using_a_device-attached_frame_of_reference)
+-   [4 デバイスの従属座標系を使用するホログラムの作成](Coordinate%20systems%20in%20DirectX.md#デバイスの従属座標系を使用するホログラムの作成)
 
-    -   [4.1 デバイスに従属する座標系の使用](https://developer.microsoft.com/ja-jp/windows/holographic/coordinate_systems_in_directx#use_a_reference_frame_attached_to_the_device)
+    -   [4.1 デバイスに従属する座標系の使用](Coordinate%20systems%20in%20DirectX.md#デバイスに従属する座標系の使用)
 
-    -   [4.2 空間ポインターポーズの取得と、ユーザーの視線への追従](https://developer.microsoft.com/ja-jp/windows/holographic/coordinate_systems_in_directx#get_a_spatial_pointer_pose.2C_and_follow_the_user.27s_gaze)
+    -   [4.2 空間ポインターポーズの取得と、ユーザーの視線への追従](Coordinate%20systems%20in%20DirectX.md#空間ポインターポーズの取得と、ユーザーの視線への追従)
 
-    -   [4.3 カメラに合わせたホログラムの回転](https://developer.microsoft.com/ja-jp/windows/holographic/coordinate_systems_in_directx#rotate_the_hologram_to_face_the_camera)
+    -   [4.3 カメラに合わせたホログラムの回転](Coordinate%20systems%20in%20DirectX.md#カメラに合わせたホログラムの回転)
 
-    -   [4.4 画像安定のためのフォーカスポイントの設定](https://developer.microsoft.com/ja-jp/windows/holographic/coordinate_systems_in_directx#set_the_focus_point_for_image_stabilization)
+    -   [4.4 画像安定のためのフォーカスポイントの設定](Coordinate%20systems%20in%20DirectX.md#画像安定のためのフォーカスポイントの設定)
 
-    -   [4.5 従属ホログラムのレンダリング](https://developer.microsoft.com/ja-jp/windows/holographic/coordinate_systems_in_directx#render_the_attached_hologram)
+    -   [4.5 従属ホログラムのレンダリング](Coordinate%20systems%20in%20DirectX.md#従属ホログラムのレンダリング)
 
--   [5 追跡喪失への対処](https://developer.microsoft.com/ja-jp/windows/holographic/coordinate_systems_in_directx#handling_tracking_loss)
+-   [5 追跡喪失への対処](Coordinate%20systems%20in%20DirectX.md#追跡喪失への対処)
 
--   [6 空間マッピング](https://developer.microsoft.com/ja-jp/windows/holographic/coordinate_systems_in_directx#spatial_mapping)
+-   [6 空間マッピング](Coordinate%20systems%20in%20DirectX.md#空間マッピング)
 
--   [7 関連項目](https://developer.microsoft.com/ja-jp/windows/holographic/coordinate_systems_in_directx#see_also)
+-   [7 関連項目](Coordinate%20systems%20in%20DirectX.md#関連項目)
 
 ## Windows の空間座標系
 
@@ -53,7 +53,7 @@ Windows で現実世界の座標系を論理的に定める核となる型が
 SpatialCoordinateSystemは、デバイスの位置を表す座標系など、他の座標系と動的関係を保持しています。どこかの時点で、デバイスはある座標系に落ち着き、他の座標系を使用しなくなります。ほとんどの座標系では、座標系が落ち着くまでの期間をアプリで対処する必要があります。
 
 アプリでは SpatialCoordinateSystemを直接作成しません。SpatialCoordinateSystem は Perception API経由で利用します。Perception API の座標系には 3つの主なソースがあります。この 3
-つのソースはそれぞれ、「[*座標系*](https://developer.microsoft.com/ja-jp/windows/holographic/coordinate_systems)」で説明する以下の考え方に対応しています。
+つのソースはそれぞれ、「[*座標系*](https://developer.microsoft.com/ja-jp/windows/mixed-reality/coordinate_systems)」で説明する以下の考え方に対応しています。
 
 -   静止座標系を取得するには、[*SpatialStationaryFrameOfReference*](https://msdn.microsoft.com/ja-jp/library/windows/apps/windows.perception.spatial.spatialstationaryframeofreference.aspx) を作成します。
 
@@ -69,7 +69,7 @@ SpatialCoordinateSystemは、デバイスの位置を表す座標系など、他
 
 ## 仮想世界での静止座標系を使用したホログラムの配置
 
-[*SpatialStationaryFrameOfReference*](https://msdn.microsoft.com/ja-jp/library/windows/apps/windows.perception.spatial.spatialstationaryframeofreference.aspx)クラスは、ユーザーが動き回ってもユーザーを取り巻く世界と相対に[*静止した状態を保つ*](https://developer.microsoft.com/ja-jp/windows/holographic/Coordinate_systems.html#stationary_frame_of_reference)座標系を表します。この座標系はデバイス近くの座標を安定した状態に保つことを優先します。SpatialStationaryFrameOfReferenceの主な使い方の 1 つは、ホログラムのレンダリング時にレンダリングエンジン内で基盤となるワールド座標系として機能することです。SpatialStationaryFrameOfReferenceを取得するには、[*SpatialLocator*](https://msdn.microsoft.com/ja-jp/library/windows/apps/windows.perception.spatial.spatiallocator.aspx)
+[*SpatialStationaryFrameOfReference*](https://msdn.microsoft.com/ja-jp/library/windows/apps/windows.perception.spatial.spatialstationaryframeofreference.aspx)クラスは、ユーザーが動き回ってもユーザーを取り巻く世界と相対に[*静止した状態を保つ*](https://developer.microsoft.com/ja-jp/windows/mixed-reality/Coordinate_systems.html#stationary_frame_of_reference)座標系を表します。この座標系はデバイス近くの座標を安定した状態に保つことを優先します。SpatialStationaryFrameOfReferenceの主な使い方の 1 つは、ホログラムのレンダリング時にレンダリングエンジン内で基盤となるワールド座標系として機能することです。SpatialStationaryFrameOfReferenceを取得するには、[*SpatialLocator*](https://msdn.microsoft.com/ja-jp/library/windows/apps/windows.perception.spatial.spatiallocator.aspx)
 クラスを使用し、さらに[*CreateStationaryFrameOfReferenceAtCurrentLocation*](https://msdn.microsoft.com/ja-jp/library/windows/apps/windows.perception.spatial.spatiallocator.createstationaryframeofreferenceatcurrentlocation.aspx)
 を呼び出します。
 
@@ -87,7 +87,7 @@ referenceFrame = locator.CreateStationaryFrameOfReferenceAtCurrentLocation();
 
 ## 仮想世界での空間アンカーを使用したホログラムの配置
 
-[*空間アンカー*](https://developer.microsoft.com/ja-jp/windows/holographic/Coordinate_systems.html#spatial_anchors)とは、現実世界の特定の場所にホログラムを置くための優れた方法で、アンカーは時間がたっても座標系によって同じ位置が保たれます。ここでは、アンカーを作成して使用する方法とアンカーデータのしくみについて説明します。
+[*空間アンカー*](https://developer.microsoft.com/ja-jp/windows/mixed-reality/Coordinate_systems.html#spatial_anchors)とは、現実世界の特定の場所にホログラムを置くための優れた方法で、アンカーは時間がたっても座標系によって同じ位置が保たれます。ここでは、アンカーを作成して使用する方法とアンカーデータのしくみについて説明します。
 
 SpatialAnchor は、選択した SpatialCoordinateSystem内に任意の位置と向きで作成できます。デバイスは、その時点でその座標系に配置できる必要があります。また、その座標系は空間アンカーの限界に達してはいけません。
 
@@ -360,7 +360,7 @@ anchorSpaceToCurrentCoordinateSystem = tryTransform-&gt;Value;
 
 ## デバイスの従属座標系を使用するホログラムの作成
 
-デバイスの場所に[*固定される*](https://developer.microsoft.com/ja-jp/windows/holographic/Coordinate_systems.html#attached_frame_of_reference)ホログラムをレンダリングしたい場合があります。たとえば、デバイスの向きだけは判断できても空間内でのデバイスの位置が分からない場合に、デバッグ情報や情報メッセージを含むパネルをレンダリングするような場合です。そのためには、従属座標系を使用します。
+デバイスの場所に[*固定される*](https://developer.microsoft.com/ja-jp/windows/mixed-reality/Coordinate_systems.html#attached_frame_of_reference)ホログラムをレンダリングしたい場合があります。たとえば、デバイスの向きだけは判断できても空間内でのデバイスの位置が分からない場合に、デバッグ情報や情報メッセージを含むパネルをレンダリングするような場合です。そのためには、従属座標系を使用します。
 
 SpatialLocatorAttachedFrameOfReference クラスは、現実世界ではなく、デバイス相対の座標系を定義します。この座標系では、ユーザーの周囲に相対で頭部が固定され、座標系の作成時にユーザーが向いている方向を指します。それ以降、ユーザーがデバイスを回転させても、この座標系のすべての幾何学的配置はこの固定された頭部に相対になります。
 
@@ -403,14 +403,14 @@ m\_referenceFrame-&gt;GetStationaryCoordinateSystemAtTimestamp(prediction-&gt;Ti
 
 ## 空間ポインター ポーズの取得と、ユーザーの視線への追従
 
-今回のサンプルホログラムをユーザーの[*視線*](https://developer.microsoft.com/ja-jp/windows/holographic/gaze)に追従させます。これは Holographic Shell がユーザーの視線に追従するのと同じです。このためには、同じタイムスタンプで SpatialPointerPose を取得する必要があります。
+今回のサンプルホログラムをユーザーの[*視線*](https://developer.microsoft.com/ja-jp/windows/mixed-reality/gaze)に追従させます。これは Holographic Shell がユーザーの視線に追従するのと同じです。このためには、同じタイムスタンプで SpatialPointerPose を取得する必要があります。
 
 ```cs
 SpatialPointerPose\^ pose = SpatialPointerPose::TryGetAtTimestamp(currentCoordinateSystem,
 prediction-&gt;Timestamp);
 ```
 
-この SpatialPointerPose に、[*ユーザー頭部の現在位置*](https://developer.microsoft.com/ja-jp/windows/holographic/gaze_and_gestures_in_directx)に応じてホログラムの位置を決めるのに必要な情報が含まれています。
+この SpatialPointerPose に、[*ユーザー頭部の現在位置*](https://developer.microsoft.com/ja-jp/windows/mixed-reality/gaze_and_gestures_in_directx)に応じてホログラムの位置を決めるのに必要な情報が含まれています。
 
 ユーザーが快適に感じるように、線形補間 ("lerp") を使用して、一定期間に起きる位置の変化を滑らかにします。ホログラムを視線に固定するよりも、こちらの方がユーザーはより快適に感じます。追従するホログラムの位置を線形補間することで、動きを抑制してホログラムを安定させることもできます。このような抑制を行わないと､ユーザーの頭が少しでも動いたと判断されるとホログラムがぶれて見えることになります。
 
@@ -497,7 +497,7 @@ XMMatrixTranspose(rotationMatrix \* modelTranslation));
 
 ## 画像安定のためのフォーカス ポイントの設定
 
-[*画像を安定させる*](https://developer.microsoft.com/ja-jp/windows/holographic/Hologram_stability.html#stabilization_plane)ためにフォーカスポイントも設定します。追従ホロcsグラムで最適な結果を得るには、ホログラムの速度を使う必要があります。速度は次のように計算します。
+[*画像を安定させる*](https://developer.microsoft.com/ja-jp/windows/mixed-reality/Hologram_stability.html#stabilization_plane)ためにフォーカスポイントも設定します。追従ホロcsグラムで最適な結果を得るには、ホログラムの速度を使う必要があります。速度は次のように計算します。
 
 StationaryQuadRenderer::Update での変更
 ```cs
@@ -562,7 +562,7 @@ std::bind(&HolographicApp1Main::OnLocatabilityChanged, this, \_1, \_2)
 );
 ```
 
-アプリで LocatabilityChanged イベントを受け取ったら、必要に応じて動作を変更できます。たとえば、PositionalTrackingInhibited 状態では、アプリは通常動作を一時停止し、警告メッセージを表示する[*追従ホログラム*](https://developer.microsoft.com/ja-jp/windows/holographic/Coordinate_systems_in_DirectX.html#create_holograms_using_a_device-attached_frame_of_reference)をレンダリングします。
+アプリで LocatabilityChanged イベントを受け取ったら、必要に応じて動作を変更できます。たとえば、PositionalTrackingInhibited 状態では、アプリは通常動作を一時停止し、警告メッセージを表示する[*追従ホログラム*](https://developer.microsoft.com/ja-jp/windows/mixed-reality/Coordinate_systems_in_DirectX.html#create_holograms_using_a_device-attached_frame_of_reference)をレンダリングします。
 
 Visual Studio 2015 の Windows Holographic のアプリテンプレートには、LocatabilityChanged ハンドラーが既に用意されています。このハンドラーの既定では、位置追跡を利用できない場合､デバッグコンソールに警告を表示します。ここにコードを追加して、必要に応じてアプリの反応を用意することができます。
 
@@ -601,7 +601,7 @@ break;
 
 ## 空間マッピング
 
-[*空間マッピング*](https://developer.microsoft.com/ja-jp/windows/holographic/spatial_mapping_in_directx)のAPIでは、表面メッシュのモデル変換を取得するために、座標系を使用することになります。
+[*空間マッピング*](https://developer.microsoft.com/ja-jp/windows/mixed-reality/spatial_mapping_in_directx)のAPIでは、表面メッシュのモデル変換を取得するために、座標系を使用することになります。
 
 ## 関連項目
 
