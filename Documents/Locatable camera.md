@@ -39,7 +39,7 @@ HoloLens には、世界を映し出すカメラがデバイス正面に搭載�
 -   カメラは以下のモードを fps 30、24、20、15、5 でサポート(全モードの縦横比 16:9)
 
 |ビデオ|プレビュー|静止画|水平視野角 (H-FOV)|推奨用途|
-|:-|:-|:-|:-|:-|
+|:---|:---|:---|:---|:---|
 |1280x720|1280x720|1280x720|45 度|(既定)|
 |N/A|N/A|2048x1152|67 度|最高解像度静止画|
 |1408x792|1408x792|1408x792|48 度|ビデオの手振れ補正用のオーバースキャン (パディング) 解像度|
@@ -59,12 +59,11 @@ HoloLens のドキュメントでは、「カメラ」が「仮想ゲームカ�
 各画像フレームには、写真でもビデオでも、座標系の他に 2 つの重要な変換が含まれます。1 つは "View" (ビュー)変換で、指定された座標系からカメラにマップします。もう 1 つは"Projection" (プロジェクション)変換で、カメラから画像内のピクセルにマップします。この 2 つの変換によって、3D 空間内の光線の各ピクセルが定義されます。3D 空間内の光線は、そのピクセルを生み出す光子が辿る経路を表します。フレームの座標系から他の座標系([*静止座標系*](https://developer.microsoft.com/ja-jp/windows/mixed-reality/Coordinate_systems.html#stationary_frame_of_reference)など)への変換を取得することで、こうした光線をアプリの他のコンテンツに関連付けることができます。つまり、各画像フレームは以下を提供します。
 
 -   ピクセルデータ (RGB、NV12、JPEG などの形式)
-
 -   各フレームを「位置指定可能 (ロケータブル)」にする 3 要素から成るメタデータ([*IMFAttributes*](https://msdn.microsoft.com/ja-jp/library/windows/desktop/ms704598%28v=vs.85%29.aspx)
 として格納)。
 
 |属性名|型|GUID|説明|
-|:-|:-|:-|:-|
+|:---|:---|:---|:---|
 |MFSampleExtension_Spatial_CameraCoordinateSystem|IUnknown ([*SpatialCoordinateSystem*](https://msdn.microsoft.com/ja-jp/library/windows/apps/windows.perception.spatial.spatialcoordinatesystem.aspx))|{9D13C82F-2199-4E67-91CD-D1A4181F2534}|撮影されたフレームの[*座標系*](https://developer.microsoft.com/ja-jp/windows/mixed-reality/coordinate_systems_in_directx)を格納|
 |MFSampleExtension_Spatial_CameraViewTransform|Blob ([*Matrix4x4*](https://msdn.microsoft.com/ja-jp/library/windows/apps/windows.foundation.numerics.matrix4x4.aspx))|{4E251FA4-830F-4770-859A-4B8D99AA809B}|その座標系内でのカメラの外部変換を格納|
 |MFSampleExtension_Spatial_CameraProjectionTransform|Blob ([*Matrix4x4*](https://msdn.microsoft.com/ja-jp/library/windows/apps/windows.foundation.numerics.matrix4x4.aspx))|{47F9FCB5-2A02-4F26-A477-792FDF95886A}|カメラのプロジェクション変換を格納|
@@ -219,12 +218,11 @@ public static Vector3 ClosestPointBetweenRays(
 追跡対象タグの位置が 2 つ以上ある場合は、ユーザーの現在のシナリオに合うようにモデル化されたシーンの位置を調整できます。重力を想定しない場合は、タグの位置が 3 つ必要です。多くの場合は単純な配色を使用して、リアルタイムの追跡対象タグの位置を白い球体で表し、モデル化されたタグの位置を青い球体で表します。これにより、ユーザーは位置合わせの良し悪しを視覚的に判断できます。今回示すすべてのアプリでは、次のような設定を想定しています。
 
 -   モデル化されたタグの位置が 2 つ以上
-
 -   シーン内でタグの親になる「キャリブレーション空間」が 1 つ
-
 -   カメラ特徴点の ID
-
 -   モデル化されたタグとリアルタイムタグ位置合わせするためにキャリブレーション空間を移動する動作(モデル化されたマーカー自体ではなく、親空間を移動することに注意します。ほかの接続はモデル化されたマーカーと相対に位置が決まるためです)
+
+
 ```CS
 // In the two tags case:
  Vector3 idealDelta = (realTags[1].EstimatedWorldPos - realTags[0].EstimatedWorldPos);

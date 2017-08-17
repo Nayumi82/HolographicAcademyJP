@@ -31,7 +31,7 @@ HoloLens アプリの開発は一般的なデスクトップアプリケーシ�
 **最重要パフォーマンス目標**
 
 |メトリック|目標|
-|:-|:-|
+|:---|:---|
 |[*フレームレート*](https://developer.microsoft.com/ja-jp/windows/mixed-reality/Hologram_stability.html#frame_rate)|60 fps|
 |電力消費量|1 分平均がオレンジゾーンおよびグリーンゾーン内。後半の「システムパフォーマンスツール」の情報を参照してください。|
 |メモリ|総コミット 900 MB 未満|
@@ -116,7 +116,7 @@ HoloLensのレンダリングはリアルタイムで遅延が短いことを求
 ## ツール
 
 |ツール|メトリック|
-|:-|:-|
+|:---|:---|
 |HoloLens Device Portal パフォーマンスツール|電力、メモリ、CPU、GPU、fps|
 |Visual Studio グラフィックスデバッガー|GPU、シェーダー、グラフィックスパフォーマンス|
 |Visual Studio Diagnostic Tools (Visual Studio 診断ツール)|メモリ、CPU|

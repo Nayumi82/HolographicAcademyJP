@@ -39,9 +39,7 @@ HoloLens は 3D レンダリングの新しい媒体になるため、機能と�
 **複合現実におけるコントロールとパターン**
 
 -   [*カーソル*](https://developer.microsoft.com/ja-jp/windows/mixed-reality/cursors)
-
 -   [*視線インジケーター*](https://developer.microsoft.com/ja-jp/windows/mixed-reality/gaze_indicator)
-
 -   [*室内スキャンUX*](https://developer.microsoft.com/ja-jp/windows/mixed-reality/room_scan_ux)　??
 
 ## 2D アプリの更新

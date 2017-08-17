@@ -81,7 +81,6 @@ HoloLensでこの問題を解決するには、仮想世界の中でユーザー
 空間アンカーを利用する座標系と静止座標系の大きな違いは、空間アンカーどうしの相対位置が絶えず調整される点にあります。
 
 -   静止座標系に配置されたホログラムは、常に相互の固定関係を保持します。ただし、ユーザーの隣にホログラムが安定して表示されるように、世界と相対に静止座標系が移動します。
-
 -   ある空間アンカーを使用して配置されたホログラムは、別の空間アンカーを使用して配置されたホログラムと相対に移動します。これにより、たとえば、あるアンカーを左に動かし、別のアンカーを右に動かす調整が必要でも、Windows は各空間アンカーの位置の認識を改善できます。
 
 静止座標系ではユーザーの近くに安定させようと最適化するのに対し、空間アンカーは原点の近くに安定させようとします。これにより、ホログラムは時間が経っても正確な場所にとどまり続けることができますが、空間アンカーの原点から遠く離れた場所にレンダリングされるホログラムは、深刻なレバーアーム効果の影響を受けやすくなります。これは、空間アンカーの位置と向きの小さな更新が、そのアンカーからの距離に比例して拡大するためです。これまでの経験による対策として、空間アンカーの座標系に基づいてレンダリングするのは、その空間アンカーの原点から約 3 メートル以内のものにします。
@@ -146,13 +145,8 @@ HoloLensでこの問題を解決するには、仮想世界の中でユーザー
 ## 関連項目
 
 -   [*空間アンカー*](https://developer.microsoft.com/ja-jp/windows/mixed-reality/spatial_anchors)
-
 -   [*ホログラフィック共有エクスペリエンス*](https://developer.microsoft.com/ja-jp/windows/mixed-reality/shared_holographic_experiences) ??
-
 -   [*Unity の Worldアンカー*](https://developer.microsoft.com/ja-jp/windows/mixed-reality/world_anchor_in_unity) ??
-
 -   [*DirectXの座標系*](https://developer.microsoft.com/ja-jp/windows/mixed-reality/coordinate_systems_in_directx)
-
 -   [*DirectXの共有空間アンカー*](https://developer.microsoft.com/ja-jp/windows/mixed-reality/shared_spatial_anchors_in_directx)
-
 -   [*ケーススタディ– 現実世界で穴を通して見る*](https://developer.microsoft.com/ja-jp/windows/mixed-reality/case_study_-_looking_through_holes_in_your_reality)

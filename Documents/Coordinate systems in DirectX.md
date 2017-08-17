@@ -56,9 +56,7 @@ SpatialCoordinateSystemは、デバイスの位置を表す座標系など、他
 つのソースはそれぞれ、「[*座標系*](https://developer.microsoft.com/ja-jp/windows/mixed-reality/coordinate_systems)」で説明する以下の考え方に対応しています。
 
 -   静止座標系を取得するには、[*SpatialStationaryFrameOfReference*](https://msdn.microsoft.com/ja-jp/library/windows/apps/windows.perception.spatial.spatialstationaryframeofreference.aspx) を作成します。
-
 -   空間アンカーを取得するには、[*SpatialAnchor*](https://msdn.microsoft.com/ja-jp/library/windows/apps/windows.perception.spatial.spatialanchor.aspx) を作成します。
-
 -   従属座標系を取得するには、[*SpatialLocatorAttachedFrameOfReference*](https://msdn.microsoft.com/ja-jp/library/windows/apps/windows.perception.spatial.spatiallocatorattachedframeofreference.aspx) を作成します。
 
 これらのオブジェクトによって返されるすべての座標系は、y 軸は上方向が正、x 軸は右方向が正、z 軸は手前方向が正の右手系です。z 軸のどちらが正方向になるかを覚えるには、左手または右手の指を x 軸の正方向に向け、その指を y 軸の正方向に曲げます。このとき、親指は右手を使うか左手を使うかによって手前方向または画面奥の方向を指します。この親指が指す方向が z 軸の正方向です。次の図はこの 2 つの座標系を示します。
@@ -155,8 +153,7 @@ SpatialAnchor を[*SpatialAnchorStore*](https://msdn.microsoft.com/ja-jp/library
 -   アプリの選択に応じて、ローカルインメモリコレクションを
     SpatialAnchorStore に保存します。
 
-以下に[*SpatialAnchor*](https://msdn.microsoft.com/ja-jp/library/windows/apps/windows.perception.spatial.spatialanchor.aspx)
-オブジェクトを[*SpatialAnchorStore*](https://msdn.microsoft.com/ja-jp/library/windows/apps/windows.perception.spatial.spatialanchorstore.aspx)に保存する方法を示します。
+以下に[*SpatialAnchor*](https://msdn.microsoft.com/ja-jp/library/windows/apps/windows.perception.spatial.spatialanchor.aspx) オブジェクトを[*SpatialAnchorStore*](https://msdn.microsoft.com/ja-jp/library/windows/apps/windows.perception.spatial.spatialanchorstore.aspx)に保存する方法を示します。
 
 クラスの開始時に、SpatialAnchorStore を非同期で要求します。これには、API がアンカーストアを読み込む際にシステム I/O が関係します。この APIを非同期にして、I/O が非ブロッキングになるようにします。
 
@@ -597,7 +594,5 @@ void HolographicApp1Main::OnLocatabilityChanged(SpatialLocator^ sender, Object^ 
 ## 関連項目
 
 -   [*座標系*](https://developer.microsoft.com/ja-jp/windows/mixed-reality/coordinate_systems)
-
 -   [*DirectX における視線とジェスチャー*](https://developer.microsoft.com/ja-jp/windows/mixed-reality/gaze,_gestures,_and_motion_controllers_in_directx)
-
 -   [*DirectX における空間マッピング*](https://developer.microsoft.com/ja-jp/windows/mixed-reality/spatial_mapping_in_directx)

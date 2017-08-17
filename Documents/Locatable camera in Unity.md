@@ -26,9 +26,7 @@
 
 1.  Unity エディターで、[Edit] (編集)、[Project Settings] (プロジェクト設定)、[Player] (プレイヤー)
     の順に選び、プレイヤーの設定に移動します。
-
 2.  [Windows Store] (Windows ストア) タブをクリックします。
-
 3.  [Publishing Settings] (発行の設定) の [Capabilities] (機能)セクションで、**[WebCam]** (Web カメラ)機能と **[Microphone]** (マイク)機能のチェック ボックスをオンにします。
 
 カメラでは一度に 1 つの操作しか実行できません。カメラの現在モード(フォト、ビデオ、なし) を判断するには、UnityEngine.VR.WSA.WebCam.Mode をチェックします。
@@ -42,15 +40,10 @@
 PhotoCapture 型により、フォトビデオカメラを使用して静止画写真を撮影できるようになります。PhotoCapture を使用して写真を撮影する一般的なパターンは以下のとおりです。
 
 1.  PhotoCapture オブジェクトを作成します。
-
 2.  必要な設定で CameraParameters を作成します。
-
 3.  StartPhotoModeAsync を使用してフォトモードを開始します。
-
 4.  目的の写真を撮影します。
-
     -   (オプション)その写真を操作します。
-
 5.  フォトモードを停止し、リソースをクリーンアップします。
 
 ## PhotoCapture の共通セットアップ
