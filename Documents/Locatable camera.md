@@ -56,7 +56,7 @@ HoloLens のドキュメントでは、「カメラ」が「仮想ゲームカ�
 
 このトピックの説明では [*Media Foundationの属性*](https://msdn.microsoft.com/ja-jp/library/windows/desktop/mt740395%28v=vs.85%29.aspx)を取り上げていますが、[*WinRT API*](https://msdn.microsoft.com/library/windows/apps/windows.media.devices.core.cameraintrinsics)を使用してカメラの固有情報を取得する API もあります。
 
-## 画像と座標系
+### 画像と座標系
 
 各画像フレームには、写真でもビデオでも、座標系の他に 2 つの重要な変換が含まれます。1 つは "View" (ビュー)変換で、指定された座標系からカメラにマップします。もう 1 つは"Projection" (プロジェクション)変換で、カメラから画像内のピクセルにマップします。この 2 つの変換によって、3D 空間内の光線の各ピクセルが定義されます。3D 空間内の光線は、そのピクセルを生み出す光子が辿る経路を表します。フレームの座標系から他の座標系([*静止座標系*](https://developer.microsoft.com/ja-jp/windows/mixed-reality/Coordinate_systems.html#stationary_frame_of_reference)など)への変換を取得することで、こうした光線をアプリの他のコンテンツに関連付けることができます。つまり、各画像フレームは以下を提供します。
 
@@ -83,7 +83,7 @@ Matrix4x4 　形式 　　　　　　項
 
 ![](media/Locatable camera/image1.png)
 
-## カメラからアプリ指定の座標系への変換
+### カメラからアプリ指定の座標系への変換
 
 カメラのビュー (CameraView ) とカメラの座標系 (CameraCoordinateSystem)からアプリの座標系またはワールド座標系に変換するには、以下が必要です。
 
@@ -91,7 +91,7 @@ Matrix4x4 　形式 　　　　　　項
 
 [*DirectX でのロケータブルカメラ*](https://developer.microsoft.com/ja-jp/windows/mixed-reality/locatable_camera_in_directx): カメラの座標系とアプリの座標系との変換をクエリする非常に簡単な方法を示します。
 
-## アプリ指定の座標系からピクセル座標への変換
+### アプリ指定の座標系からピクセル座標への変換
 
 カメラ画像で特定の 3D 位置を探したり、その位置に描画するとします。
 
@@ -109,7 +109,7 @@ Matrix4x4 　形式 　　　　　　項
  int2 PixelPos = int2( ImagePosZeroToOne.x * ImageWidth, ( 1 - ImagePosZeroToOne.y ) * ImageHeight ); // good for CPU textures
 ```
 
-## ピクセルからアプリ指定の座標系への変換
+### ピクセルからアプリ指定の座標系への変換
 
 ピクセルからワールド座標系への変換はやや複雑です。
 ```cs
@@ -136,7 +136,7 @@ public static Vector3 UnProjectVector(Matrix4x4 proj, Vector3 to)
 ```
 あるポイントの世界の中での実際の位置を探すには、世界の 2 本の光線とその交点を見つけるか、そのポイントの既知サイズが必要になります。
 
-## 歪み誤差
+### 歪み誤差
 
 HoloLens では、ビデオストリームと静止画ストリームは、システムの画像処理パイプラインで歪みが補正された後、補正後のフレームがアプリで利用できるようになります(プレビューストリームにはオリジナルの歪みのあるフレームが含まれます)。アプリでは、プロジェクション行列しか利用可能にならないため、画像フレームが完璧なピンホールカメラを表していることを想定する必要があります。ただし、画像処理パイプラインの歪み補正関数では、フレームのメタデータでプロジェクション行列を使用する際に最大 10 ピクセルの誤差が残ることがあります。多くのユースケースでは、この誤差は問題になりません。しかし、一例として、ホログラムを現実世界のポスターやマーカーの位置に合わせようとする場合、10 ピクセル以下の食い違い (2 m 離れたホログラムの場合で 11 mm 程度)がわかるとしたら、この歪み誤差が原因になっている可能性があります。
 
@@ -166,7 +166,7 @@ HoloLens では、ビデオストリームと静止画ストリームは、シ�
  float4 finalColor = float4( cameraTextureColor.rgb, pctInView );
 ```
 
-## タグ、パターン、ポスター、オブジェクトの追跡
+### タグ、パターン、ポスター、オブジェクトの追跡
 
 多くの複合現実アプリでは、認識可能な画像やビジュアルパターンを使って空間内に追跡可能なポイントを作成します。その後、このポイントを利用して、そのポイントから相対に対象物をレンダリングしたり、既知の場所を作成します。HoloLens の使い方の中には、基準マークでタグ付けされた現実世界の対象物 (QRコード付きのテレビ モニターなど)を探して、その基準マーク上にホログラムを配置し、Wi-Fi 経由で HoloLens と通信するように設定された、タブレットなどの非 HoloLens デバイスとホログラムを表示上ペアリングするものもあります。
 
@@ -240,7 +240,7 @@ public static Vector3 ClosestPointBetweenRays(
  trans.position += realTags[0].EstimatedWorldPos - modelledTags[0].transform.position;
 ```
 
-## カメラ位置からのホログラムのレンダリング
+### カメラ位置からのホログラムのレンダリング
 
 メモ: ホログラムとカメラ ストリームを融合する独自の[*複合現実キャプチャ(MRC)*](https://developer.microsoft.com/ja-jp/windows/mixed-reality/mixed_reality_capture)の作成を考えている場合、MRC 効果を使用するか、[*Unity のロケータブルカメラ*](https://developer.microsoft.com/ja-jp/windows/mixed-reality/locatable_camera_in_unity)でshowHolograms プロパティを有効にします。
 
@@ -273,24 +273,18 @@ private void OnRenderImage(RenderTexture source, RenderTexture destination)
 }
 ```
 
-## LED やその他のレコグナイザーライブラリを使用した、現実世界で静止状態または移動中のタグ付けされた対象物や顔の追跡と特定
+### LED やその他のレコグナイザーライブラリを使用した、現実世界で静止状態または移動中のタグ付けされた対象物や顔の追跡と特定
 
 例:
 
 -   LED (または動作の遅いオブジェクト向けに QR コード)を備えた産業ロボット
-
 -   室内にある物体の識別と認識
-
 -   室内にいる人間の識別と認識(ホログラフィックの連絡先カードを顔の上に表示するなど)
 
 ## 関連項目
 
 -   [*DirectX でのロケータブルカメラ*](https://developer.microsoft.com/ja-jp/windows/mixed-reality/locatable_camera_in_directx)
-
 -   [*Unity でのロケータブルカメラ*](https://developer.microsoft.com/ja-jp/windows/mixed-reality/locatable_camera_in_unity)
-
 -   [*複合現実キャプチャ*](https://developer.microsoft.com/ja-jp/windows/mixed-reality/mixed_reality_capture)
-
 -   [*開発者向け複合現実キャプチャ*](https://developer.microsoft.com/ja-jp/windows/mixed-reality/mixed_reality_capture_for_developers)
-
 -   [*MediaCaptureを使った基本的な写真、ビデオ、およびオーディオのキャプチャ*](https://msdn.microsoft.com/ja-jp/library/windows/apps/mt243896.aspx)
