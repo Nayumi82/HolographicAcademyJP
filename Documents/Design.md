@@ -48,4 +48,4 @@ HoloLens は 3D レンダリングの新しい媒体になるため、機能と�
 
 ユニバーサル Windows プラットフォーム (UWP)により、デバイスを問わずアプリのエクスペリエンスを容易に機能させることが可能になります。ここでは、UWP をターゲットにするアプリを HoloLens で機能させるための簡単なガイダンスを示します。
 
--   [*既存のユニバーサル アプリを HoloLens向けに更新する*](https://developer.microsoft.com/ja-jp/windows/mixed-reality/updating_your_existing_universal_app_for_hololens)
+-   [*既存のユニバーサルアプリを HoloLens向けに更新する*](https://developer.microsoft.com/ja-jp/windows/mixed-reality/updating_your_existing_universal_app_for_hololens)

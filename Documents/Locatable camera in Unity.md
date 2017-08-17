@@ -39,17 +39,17 @@
 
 **型:** PhotoCapture
 
-PhotoCapture 型により、フォト ビデオカメラを使用して静止画写真を撮影できるようになります。PhotoCapture を使用して写真を撮影する一般的なパターンは以下のとおりです。
+PhotoCapture 型により、フォトビデオカメラを使用して静止画写真を撮影できるようになります。PhotoCapture を使用して写真を撮影する一般的なパターンは以下のとおりです。
 
 1.  PhotoCapture オブジェクトを作成します。
 
 2.  必要な設定で CameraParameters を作成します。
 
-3.  StartPhotoModeAsync を使用してフォト モードを開始します。
+3.  StartPhotoModeAsync を使用してフォトモードを開始します。
 
 4.  目的の写真を撮影します。
 
-    -   (オプション) その写真を操作します。
+    -   (オプション)その写真を操作します。
 
 5.  フォトモードを停止し、リソースをクリーンアップします。
 
@@ -220,10 +220,10 @@ VideoCapture 関数は PhotoCapture とほぼ同じです。異なるのは、1 
 
 1.  VideoCapture オブジェクトを作成します。
 2.  必要な設定で CameraParameters を作成します。
-3.  StartVideoModeAsync を使用してビデオ モードを開始します。
+3.  StartVideoModeAsync を使用してビデオモードを開始します。
 4.  ビデオの録画を開始します。
 5.  ビデオの録画を停止します。
-6.  ビデオ モードを停止し、リソースをクリーンアップします。
+6.  ビデオモードを停止し、リソースをクリーンアップします。
 
 まず、VideoCapture オブジェクトを作成します。
 

@@ -104,9 +104,9 @@ SpatialAnchor を[*SpatialAnchorStore*](https://msdn.microsoft.com/ja-jp/library
 
 ### ホログラフィックコンテンツ用空間アンカーの作成
 
-ここで示すコード サンプルでは、Windows Holographic アプリテンプレートを変更して、「**押す**」というジェスチャーが検出されたときのアンカーを作成します。その後、レンダリング中にそのアンカーにキューブを配置します。
+ここで示すコードサンプルでは、Windows Holographic アプリテンプレートを変更して、「**押す**」というジェスチャーが検出されたときのアンカーを作成します。その後、レンダリング中にそのアンカーにキューブを配置します。
 
-ヘルパー クラスでは複数のアンカーをサポートしているので、このコードサンプルを使用していくつでもキューブを配置できます。
+ヘルパークラスでは複数のアンカーをサポートしているので、このコードサンプルを使用していくつでもキューブを配置できます。
 
 アプリではアンカーの ID を使ってアンカーを管理します。今回の例では、アプリのアンカーコレクションに現在保存されているアンカーの番号を基に、シーケンシャルに名前を付ける方法を採用しています。
 
@@ -150,15 +150,15 @@ SpatialAnchor を[*SpatialAnchorStore*](https://msdn.microsoft.com/ja-jp/library
 
 ここでは、SampleSpatialAnchorHelperクラスの作成方法を取り上げます。このクラスは以下のような保存に対応します。
 
--   インメモリ アンカーのコレクションを Platform::String キーでインデックスを付けて保存します。
--   座標系の SpatialAnchorStoreからアンカーを読込みます。SpatialAnchorStore は、ローカル インメモリコレクションとは別に管理されます。
--   アプリの選択に応じて、ローカル インメモリ コレクションを
+-   インメモリアンカーのコレクションを Platform::String キーでインデックスを付けて保存します。
+-   座標系の SpatialAnchorStoreからアンカーを読込みます。SpatialAnchorStore は、ローカルインメモリコレクションとは別に管理されます。
+-   アプリの選択に応じて、ローカルインメモリコレクションを
     SpatialAnchorStore に保存します。
 
 以下に[*SpatialAnchor*](https://msdn.microsoft.com/ja-jp/library/windows/apps/windows.perception.spatial.spatialanchor.aspx)
 オブジェクトを[*SpatialAnchorStore*](https://msdn.microsoft.com/ja-jp/library/windows/apps/windows.perception.spatial.spatialanchorstore.aspx)に保存する方法を示します。
 
-クラスの開始時に、SpatialAnchorStore を非同期で要求します。これには、API がアンカー ストアを読み込む際にシステム I/O が関係します。この APIを非同期にして、I/O が非ブロッキングになるようにします。
+クラスの開始時に、SpatialAnchorStore を非同期で要求します。これには、API がアンカーストアを読み込む際にシステム I/O が関係します。この APIを非同期にして、I/O が非ブロッキングになるようにします。
 
 ```cs
 // Request the spatial anchor store, which is the WinRT object that will accept the imported anchor data.
@@ -193,7 +193,7 @@ SpatialAnchor を[*SpatialAnchorStore*](https://msdn.microsoft.com/ja-jp/library
    });
 ```
 
-アンカーを保存するために使用できる SpatialAnchorStoreが用意されます。これは IMapView で、文字列のキー値が SpatialAnchorのデータ値に関連付けられます。サンプル コードでは、これをプライベートクラスのメンバー変数に格納しています。この変数には、ヘルパークラスのパブリック関数を使用してアクセスします。
+アンカーを保存するために使用できる SpatialAnchorStoreが用意されます。これは IMapView で、文字列のキー値が SpatialAnchorのデータ値に関連付けられます。サンプルコードでは、これをプライベートクラスのメンバー変数に格納しています。この変数には、ヘルパークラスのパブリック関数を使用してアクセスします。
 
 ```cs
 SampleSpatialAnchorHelper::SampleSpatialAnchorHelper(SpatialAnchorStore^ anchorStore)
@@ -280,7 +280,7 @@ SpatialAnchor の独自のインメモリデータベースが必要な場合が
 
 **メモ:** 復元するアンカーが、すぐに見つからないことがあります。たとえば、アンカーが別の部屋や、まったく別の建物にあるかもしれませ。AnchorStoreから取得するアンカーは、使用する前に検索の可能性をテストします。
 
-今回のサンプル コードでは、AnchorStoreからすべてのアンカーを取得しています。これは必須要件ではありません。開発するアプリでは、実装にとって意味のある文字列キー値を使用して、アンカーの特定のサブセットを選択して取得する方が適切かもしれません。
+今回のサンプルコードでは、AnchorStoreからすべてのアンカーを取得しています。これは必須要件ではありません。開発するアプリでは、実装にとって意味のある文字列キー値を使用して、アンカーの特定のサブセットを選択して取得する方が適切かもしれません。
 
 ```cs
 // LoadFromAnchorStore: Loads all anchors from the app's anchor store into memory.

@@ -140,7 +140,7 @@ HoloLensでこの問題を解決するには、仮想世界の中でユーザー
 
   --- -------------------------------------------------------------------------------------------------------------------------
   ⚠   **このセクションには、画像が必要です。**
-  追跡を失ったときに表示される Shell UI のスクリーン ショットを追加してください。
+  追跡を失ったときに表示される Shell UI のスクリーンショットを追加してください。
   --- -------------------------------------------------------------------------------------------------------------------------
 
 ## 関連項目
@@ -155,4 +155,4 @@ HoloLensでこの問題を解決するには、仮想世界の中でユーザー
 
 -   [*DirectXの共有空間アンカー*](https://developer.microsoft.com/ja-jp/windows/mixed-reality/shared_spatial_anchors_in_directx)
 
--   [*ケース スタディ – 現実世界で穴を通して見る*](https://developer.microsoft.com/ja-jp/windows/mixed-reality/case_study_-_looking_through_holes_in_your_reality)
+-   [*ケーススタディ– 現実世界で穴を通して見る*](https://developer.microsoft.com/ja-jp/windows/mixed-reality/case_study_-_looking_through_holes_in_your_reality)

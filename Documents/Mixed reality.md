@@ -21,7 +21,7 @@
 
 センサーや処理能力が進化し、コンピューターによる環境からの入力という新たな分野が生まれています。このコンピューターと環境との相互作用は、突き詰めれば環境を理解すること、つまり「認識」です。そのため、環境情報を明らかにする API は、Windowsでは[*認識 (perception) API*](https://docs.microsoft.com/ja-jp/uwp/api/Windows.Perception)と呼ばれています。環境入力が取り込むのは、世界の中での人物の位置([*ヘッドトラッキング*](https://developer.microsoft.com/ja-jp/windows/mixed-reality/coordinate_systems)など)、面と境界([*空間マッピング*](https://developer.microsoft.com/ja-jp/windows/mixed-reality/spatial_mapping)や[*空間の把握*](https://developer.microsoft.com/ja-jp/windows/mixed-reality/case_study_-_expanding_the_spatial_mapping_capabilities_of_hololens)など)、アンビエント照明、環境音、オブジェクト認識、場所などです。
 
-コンピューターの処理、人間による入力、環境入力の 3 つすべてが組み合わされるようになった今、真の複合現実体験を生み出せるようになります。現実世界での動きがデジタル世界での動きに変換されます。現実世界の境界が、デジタル世界でのアプリ体験(ゲーム プレイなど)に影響を与えます。環境入力がなければ、現実世界とデジタル世界の融合体験は叶いません。
+コンピューターの処理、人間による入力、環境入力の 3 つすべてが組み合わされるようになった今、真の複合現実体験を生み出せるようになります。現実世界での動きがデジタル世界での動きに変換されます。現実世界の境界が、デジタル世界でのアプリ体験(ゲームプレイなど)に影響を与えます。環境入力がなければ、現実世界とデジタル世界の融合体験は叶いません。
 
 ## 複合現実スペクトル
 
