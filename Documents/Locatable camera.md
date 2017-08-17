@@ -1,4 +1,4 @@
-# ロケータブル カメラ
+# ロケータブルカメラ
 
 HoloLens には、世界を映し出すカメラがデバイス正面に搭載されており、ユーザーが目にしている世界をアプリで確認できるようになります。開発者は、スマートフォン、タブレット、デスクトップのカラーカメラにアクセスするのと同じように、HoloLens 搭載のカメラにアクセスして、制御できます。モバイルやデスクトップで機能するユニバーサル Windows [*MediaCapture*](https://msdn.microsoft.com/ja-jp/library/windows/apps/windows.media.capture.mediacapture.aspx) API や Windows Media Foundation API が HoloLens でも機能します。Unity でも[*これらの Windows API をラップ*](https://developer.microsoft.com/ja-jp/windows/mixed-reality/locatable_camera_in_unity)して HoloLens カメラのシンプルな用途を抽象化しています。たとえば、標準の写真やビデオを(ホログラムを表示または非表示にして)撮影したり、シーン全体の中でカメラの位置を定めるといった用途です。
 
@@ -35,18 +35,16 @@ HoloLens には、世界を映し出すカメラがデバイス正面に搭載�
 ## デバイスカメラ情報
 
 -   オートホワイトバランス機能、自動露出機能、および完全画像処理パイプラインを備えた固定焦点式
-
 -   カメラアクティブ時に常時点灯する、世界と向き合う白色プライバシー LED
-
 -   カメラは以下のモードを fps 30、24、20、15、5 でサポート(全モードの縦横比 16:9)
 
-  **ビデオ**   **プレビュー**   **静止画**   **水平視野角 (H-FOV)**   **推奨用途**
-  ------------ ---------------- ------------ ------------------------ ------------------------------------------------------------
-  1280x720     1280x720         1280x720     45 度                    (既定)
-  N/A          N/A              2048x1152    67 度                    最高解像度静止画
-  1408x792     1408x792         1408x792     48 度                    ビデオの手振れ補正用のオーバースキャン (パディング) 解像度
-  1344x756     1344x756         1344x756     67 度                    オーバースキャンによる視野角拡大ビデオ モード
-  896x504      896x504          896x504      48 度                    画像処理タスク用省電力/低解像度モード
+|ビデオ|プレビュー|静止画|水平視野角 (H-FOV)|推奨用途|
+|:-|:-|:-|:-|:-|
+|1280x720|1280x720|1280x720|45 度|(既定)|
+|N/A|N/A|2048x1152|67 度|最高解像度静止画|
+|1408x792|1408x792|1408x792|48 度|ビデオの手振れ補正用のオーバースキャン (パディング) 解像度|
+|1344x756|1344x756|1344x756|67 度|オーバースキャンによる視野角拡大ビデオモード|
+|896x504|896x504|896x504|48 度|画像処理タスク用省電力/低解像度モード|
 
 ## 世界の中でのデバイスカメラの位置指定
 
@@ -65,11 +63,11 @@ HoloLens のドキュメントでは、「カメラ」が「仮想ゲームカ�
 -   各フレームを「位置指定可能 (ロケータブル)」にする 3 要素から成るメタデータ([*IMFAttributes*](https://msdn.microsoft.com/ja-jp/library/windows/desktop/ms704598%28v=vs.85%29.aspx)
 として格納)。
 
-  **属性名**                                              **型**                                                                                                                                                  **GUID**                                 **説明**
-  ------------------------------------------------------- ------------------------------------------------------------------------------------------------------------------------------------------------------- ---------------------------------------- -------------------------------------------------------------------------------------------------------------------------------
-  MFSampleExtension\_Spatial\_CameraCoordinateSystem      IUnknown ([*SpatialCoordinateSystem*](https://msdn.microsoft.com/ja-jp/library/windows/apps/windows.perception.spatial.spatialcoordinatesystem.aspx))   {9D13C82F-2199-4E67-91CD-D1A4181F2534}   撮影されたフレームの[*座標系*](https://developer.microsoft.com/ja-jp/windows/mixed-reality/coordinate_systems_in_directx)を格納
-  MFSampleExtension\_Spatial\_CameraViewTransform         Blob ([*Matrix4x4*](https://msdn.microsoft.com/ja-jp/library/windows/apps/windows.foundation.numerics.matrix4x4.aspx))                                  {4E251FA4-830F-4770-859A-4B8D99AA809B}   その座標系内でのカメラの外部変換を格納
-  MFSampleExtension\_Spatial\_CameraProjectionTransform   Blob ([*Matrix4x4*](https://msdn.microsoft.com/ja-jp/library/windows/apps/windows.foundation.numerics.matrix4x4.aspx))                                  {47F9FCB5-2A02-4F26-A477-792FDF95886A}   カメラのプロジェクション変換を格納
+|属性名|型|GUID|説明|
+|:-|:-|:-|:-|
+|MFSampleExtension_Spatial_CameraCoordinateSystem|IUnknown ([*SpatialCoordinateSystem*](https://msdn.microsoft.com/ja-jp/library/windows/apps/windows.perception.spatial.spatialcoordinatesystem.aspx))|{9D13C82F-2199-4E67-91CD-D1A4181F2534}|撮影されたフレームの[*座標系*](https://developer.microsoft.com/ja-jp/windows/mixed-reality/coordinate_systems_in_directx)を格納|
+|MFSampleExtension_Spatial_CameraViewTransform|Blob ([*Matrix4x4*](https://msdn.microsoft.com/ja-jp/library/windows/apps/windows.foundation.numerics.matrix4x4.aspx))|{4E251FA4-830F-4770-859A-4B8D99AA809B}|その座標系内でのカメラの外部変換を格納|
+|MFSampleExtension_Spatial_CameraProjectionTransform|Blob ([*Matrix4x4*](https://msdn.microsoft.com/ja-jp/library/windows/apps/windows.foundation.numerics.matrix4x4.aspx))|{47F9FCB5-2A02-4F26-A477-792FDF95886A}|カメラのプロジェクション変換を格納|
 
 プロジェクション変換は、画像平面にマップされるレンズ固有のプロパティ(焦点距離、プロジェクションの中心、歪み) を表します。画像平面の範囲は X 軸も Y 軸も -1 ～ 1 です。
 ```cs
