@@ -16,7 +16,7 @@ HoloLens アプリの開発は一般的なデスクトップアプリケーシ�
 
 -   [4.ツール](Performance%20recommendations%20for%20HoloLens%20apps.md#ツール)
 
-    -   [4.1 Windows Device Portal -パフォーマンス](Performance%20recommendations%20for%20HoloLens%20apps.md#windows-device-portal--パフォーマンス)
+    -   [4.1 Windows Device Portal -パフォーマンス](Performance%20recommendations%20for%20HoloLens%20apps.md#windows-device-portal---パフォーマンス)
 
     -   [4.2 システムパフォーマンス](Performance%20recommendations%20for%20HoloLens%20apps.md#システムパフォーマンス)
 
@@ -130,7 +130,7 @@ HoloLens Device Portal では、以下のパフォーマンスツールを提供
 -   Processes (プロセス) - 現在実行中のプロセスと関連プロセス情報を表示します。
 -   System Performance (システム パフォーマンス) - 電力消費量、CPU 使用量、GPU 使用量、ディスク I/O、メモリ、フレームレートなど複数のメトリックをリアルタイムに追跡します。
 
-### System performance (システム パフォーマンス)
+### システム パフォーマンス
 
 HoloLensは、さまざまな外気温の環境で機能するように設計されています。HoloLens の許容限界温度を超えると、フォアグラウンドアプリがシャットダウンされ、デバイスを冷却できるようになります。温度は、外気温、エクスペリエンスによる電力消費、エクスペリエンスの使用時間という 3 つの変数に応じて異なります。これらの 3 つの変数と HoloLens の耐熱機能の関係を以下に示します。
 
